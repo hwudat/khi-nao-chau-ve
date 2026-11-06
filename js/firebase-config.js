@@ -8,8 +8,8 @@ const firebaseConfig = {
   projectId: "khi-nao-chau-ve",
   storageBucket: "khi-nao-chau-ve.firebasestorage.app",
   messagingSenderId: "210540086986",
-  appId: "1:210540086986:web:9ef73e5e504097ab6c1633",
-  measurementId: "G-P7WJZ7J773"
+  appId: "1:210540086986:web:2e8e4a4e3c2da42f6c1633",
+  measurementId: "G-B8WHJ5F57D"
 };
 
 let fbApp = null;
