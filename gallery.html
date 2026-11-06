@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Triển Lãm — Khi Nào Cháu Về</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .gallery-hero {
+      padding: 120px 48px 48px; text-align: center;
+      background: linear-gradient(to bottom, var(--cream2), var(--cream));
+    }
+    .gallery-hero .section-title { margin-bottom: 14px; }
+    .gallery-count {
+      display: inline-block; margin-top: 12px;
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .85rem;
+      color: var(--text-light); letter-spacing: .5px;
+    }
+    .gallery-body { padding: 40px 48px 80px; }
+    .empty-state {
+      text-align: center; padding: 80px 24px; color: var(--text-light);
+    }
+    .empty-state .icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .empty-state p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; }
+    @media(max-width:900px){ .gallery-hero,.gallery-body{ padding-left:24px;padding-right:24px; } }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Khi Nào Cháu Về"/></a>
+  <ul class="nav-links">
+    <li><a href="gallery.html" class="active">Triển Lãm</a></li>
+    <li><a href="upload.html">Gửi Lời Nhắn</a></li>
+    <li><a href="about.html">Về Dự Án</a></li>
+    <li><a href="sponsors.html">Nhà Tài Trợ</a></li>
+  </ul>
+  <a href="upload.html" class="nav-cta">📸 Gửi lời nhắn</a>
+  <button class="nav-hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<div class="gallery-hero fade-up">
+  <div class="section-label">🖼️ Triển lãm</div>
+  <h1 class="section-title">Những Lời Nhắn Được Khâu Lại</h1>
+  <p class="section-sub" style="margin:0 auto;">Mỗi tấm ảnh là một mảnh ký ức. Mỗi lời nhắn là một sợi chỉ nối liền trái tim.</p>
+  <span class="gallery-count" id="gallery-count"></span>
+</div>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<!-- BODY -->
+<div class="gallery-body">
+  <!-- Filter -->
+  <div class="filter-bar" id="filter-bar">
+    <button class="filter-tag active" data-filter="all">Tất cả</button>
+    <button class="filter-tag" data-filter="miss">🏠 Nhớ nhà</button>
+    <button class="filter-tag" data-filter="proud">🌟 Tự hào</button>
+    <button class="filter-tag" data-filter="happy">😊 Vui</button>
+    <button class="filter-tag" data-filter="gratitude">🙏 Biết ơn</button>
+  </div>
+
+  <!-- Masonry -->
+  <div class="masonry" id="masonry-grid"></div>
+
+  <!-- Empty state -->
+  <div class="empty-state" id="empty-state" style="display:none;">
+    <div class="icon">🧵</div>
+    <p>Chưa có lời nhắn nào trong mục này.<br/>Hãy là người đầu tiên chia sẻ!</p>
+    <br/><a href="upload.html" class="btn btn-primary" style="margin-top:8px;">📸 Gửi lời nhắn</a>
+  </div>
+
+  <div style="text-align:center;margin-top:48px;" id="cta-upload">
+    <p style="font-size:.9rem;color:var(--text-light);margin-bottom:14px;">Bạn cũng có lời nhắn muốn gửi?</p>
+    <a href="upload.html" class="btn btn-dark">🧵 Khâu lại lời nhớ của bạn</a>
+  </div>
+</div>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<footer class="site-footer">
+  <img class="footer-logo" src="logo.png" alt="Khi Nào Cháu Về"/>
+  <div class="footer-stitch">× × × 🪡 × × ×</div>
+  <div class="footer-links">
+    <a href="gallery.html">Triển Lãm</a>
+    <a href="upload.html">Gửi Lời Nhắn</a>
+    <a href="about.html">Về Dự Án</a>
+    <a href="sponsors.html">Nhà Tài Trợ</a>
+    <a href="admin.html" style="opacity:0.6;" title="Khu vực ban tổ chức">🔐 Quản trị</a>
+  </div>
+  <div class="footer-socials">
+    <a href="#">📘</a><a href="#">📸</a><a href="#">🎵</a>
+  </div>
+  <div class="footer-copy">Dệt nên bởi tình yêu — Dự án "Khi Nào Cháu Về" © 2026</div>
+  <div class="footer-tagline">🪡 Mỗi mũi kim — một lần nhớ. Mỗi sợi chỉ — một lời chờ.</div>
+</footer>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  seedDemoData();
+
+  let currentFilter = 'all';
+  let allPosts = getApprovedPosts();
+
+  function renderGallery(filter) {
+    const grid  = document.getElementById('masonry-grid');
+    const empty = document.getElementById('empty-state');
+    const count = document.getElementById('gallery-count');
+
+    const filtered = filter === 'all' ? allPosts : allPosts.filter(p => p.emotion === filter);
+    count.textContent = `🪡 ${filtered.length} lời nhắn`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    grid.innerHTML = filtered.map(p => buildCardHTML(p)).join('');
+
+    // Trigger fade-up
+    setTimeout(() => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.08 });
+      grid.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    }, 50);
+  }
+
+  // Filter buttons
+  document.getElementById('filter-bar').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-tag');
+    if (!btn) return;
+    document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderGallery(currentFilter);
+  });
+
+  // Modal on card click
+  document.addEventListener('click', e => {
+    const card = e.target.closest('.card[data-id]');
+    if (!card) return;
+    const id   = parseInt(card.dataset.id);
+    const post = allPosts.find(p => p.id === id);
+    if (post) openModal(post);
+  });
+
+  renderGallery('all');
+</script>
+</body>
+</html>

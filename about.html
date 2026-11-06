@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Về Dự Án — Khi Nào Cháu Về</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .about-hero {
+      padding: 130px 48px 60px;
+      text-align: center;
+      background: linear-gradient(to bottom, var(--cream2), var(--cream));
+      position: relative;
+    }
+    .about-hero-needle {
+      width: 100px;
+      margin: 0 auto 20px;
+      display: block;
+    }
+    .about-story-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+    .story-card {
+      background: white;
+      border: 2px dashed var(--brown);
+      border-radius: 20px;
+      padding: 48px 40px;
+      box-shadow: 6px 6px 0 var(--beige);
+      margin-bottom: 56px;
+      position: relative;
+    }
+    .story-card::before { content: '✕'; position: absolute; top: 12px; left: 14px; font-size: .8rem; color: var(--brown); opacity: .4; }
+    .story-card::after  { content: '✕'; position: absolute; top: 12px; right: 14px; font-size: .8rem; color: var(--brown); opacity: .4; }
+
+    .story-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--brown-dark);
+      margin-bottom: 20px;
+      line-height: 1.35;
+    }
+    .story-card p {
+      font-size: 1.02rem;
+      line-height: 1.85;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+    .story-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--red-thread);
+      padding: 20px 28px;
+      border-left: 3px solid var(--red-thread);
+      background: rgba(192,57,43,.04);
+      border-radius: 0 12px 12px 0;
+      margin: 28px 0;
+      line-height: 1.7;
+    }
+
+    /* ── TIMELINE CỘT MỐC (SỢI CHỈ DỌC) ── */
+    .timeline-section {
+      position: relative;
+      margin: 60px 0;
+      padding-left: 40px;
+    }
+    .timeline-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 15px;
+      width: 3px;
+      background: repeating-linear-gradient(to bottom, var(--red-thread), var(--red-thread) 8px, transparent 8px, transparent 16px);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 44px;
+    }
+    .timeline-item::before {
+      content: '🪡';
+      position: absolute;
+      left: -37px;
+      top: 0;
+      font-size: 1.1rem;
+      background: var(--cream);
+      padding: 2px;
+    }
+    .timeline-date {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: .85rem;
+      color: var(--red-thread);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .timeline-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--brown-dark);
+      margin-bottom: 10px;
+    }
+    .timeline-desc {
+      font-size: .95rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* ── BIỂU TƯỢNG Ý NGHĨA ── */
+    .symbol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 36px;
+    }
+    .symbol-box {
+      border: 2px dashed var(--beige);
+      border-radius: 16px;
+      padding: 28px 22px;
+      background: var(--cream);
+      text-align: center;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+    .symbol-box:hover {
+      transform: translateY(-4px);
+      border-color: var(--brown);
+    }
+    .symbol-icon {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+    }
+    .symbol-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--brown-dark);
+      margin-bottom: 10px;
+    }
+    .symbol-desc {
+      font-size: .88rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* ── ĐỘI NGŨ / BAN TỔ CHỨC ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .team-card {
+      border: 2px dashed var(--brown);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+      background: white;
+    }
+    .team-avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--cream2);
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      border: 2px dashed var(--beige);
+    }
+    .team-name {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--brown-dark);
+      margin-bottom: 4px;
+    }
+    .team-role {
+      font-size: .8rem;
+      color: var(--red-thread);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .team-desc {
+      font-size: .82rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .about-hero { padding: 100px 20px 40px; }
+      .story-card { padding: 32px 20px; }
+      .timeline-section { padding-left: 32px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Khi Nào Cháu Về"/></a>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Triển Lãm</a></li>
+    <li><a href="upload.html">Gửi Lời Nhắn</a></li>
+    <li><a href="about.html" class="active">Về Dự Án</a></li>
+    <li><a href="sponsors.html">Nhà Tài Trợ</a></li>
+  </ul>
+  <a href="upload.html" class="nav-cta">📸 Gửi lời nhắn</a>
+  <button class="nav-hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<div class="about-hero fade-up">
+  <!-- Needle SVG -->
+  <svg class="about-hero-needle needle-float" viewBox="0 0 100 200" fill="none">
+    <path d="M50 20 Q80 70 30 120 Q0 160 50 190" stroke="#C0392B" stroke-width="1.8" fill="none" stroke-dasharray="5 3" opacity=".5"/>
+    <rect x="44" y="10" width="12" height="130" rx="6" fill="#D4A853"/>
+    <ellipse cx="50" cy="24" rx="3.5" ry="7" fill="#FFF8F0" stroke="#8B5E3C" stroke-width="1"/>
+    <polygon points="44,140 56,140 50,165" fill="#D4A853"/>
+    <path d="M50 16 Q60 24 50 32" stroke="#C0392B" stroke-width="2" fill="none"/>
+  </svg>
+  <div class="section-label">📖 Câu chuyện dự án</div>
+  <h1 class="section-title">Khi Nào Cháu Về?</h1>
+  <p class="section-sub" style="margin: 0 auto;">Câu hỏi thân quen gói trọn một đời ngóng trông, được thêu dệt nên bằng tình thương vô điều kiện.</p>
+</div>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<!-- MAIN STORY CONTENT -->
+<div class="about-story-container">
+
+  <!-- Story Block 1 -->
+  <div class="story-card fade-up">
+    <h2>Mũi Kim Của Bà & Nỗi Nhớ Của Cháu</h2>
+    <p>
+      Trong ký ức của nhiều người lớn lên từ những mái nhà xưa, hình ảnh bà ngồi bên bậc cửa sổ, đeo cặp kính lão trễ xuống sống mũi, cặm cụi xỏ từng đường chỉ vá lại vết sứt áo cho đứa cháu nhỏ là một trong những hồi ức bình yên nhất. Chiếc áo có thể sờn vai, rách chỉ, nhưng qua bàn tay bà lại lành lặn, ấm áp như tình yêu thương che chở.
+    </p>
+    <div class="story-quote">
+      "Áo sờn vai bà vá lại bằng chỉ đỏ.<br/>
+      Khoảng cách ngàn trùng, ta nối lại bằng lời thương."
+    </div>
+    <p>
+      Khi lớn lên, chúng ta bước chân ra khỏi lũy tre làng, rời xa thành phố nhỏ để đến với giảng đường, công sở nơi đất khách. Những cuộc gọi vội vã đôi khi chỉ kịp gói trong vài câu hỏi thăm, và bao giờ ở đầu dây bên kia cũng là tiếng hỏi quen thuộc: <strong>"Khi nào cháu về?"</strong>
+    </p>
+    <p>
+      Dự án ra đời như một không gian lưu giữ, nơi bất kỳ ai cũng có thể dừng lại vài phút giữa guồng quay hối hả, gửi gắm một tấm ảnh và một lời nhắn chân thành đến người bà, người mẹ, và mái ấm gia đình đang ngóng đợi.
+    </p>
+  </div>
+
+  <!-- Symbolism Section -->
+  <div class="story-card fade-up">
+    <h2>Biểu Tượng Xuyên Suốt</h2>
+    <p style="color:var(--text-light);">Từng chi tiết trong dự án đều mang một thông điệp văn hóa và cảm xúc sâu lắng:</p>
+
+    <div class="symbol-grid">
+      <div class="symbol-box">
+        <div class="symbol-icon">🪡</div>
+        <h3 class="symbol-title">Cây Kim Khâu</h3>
+        <p class="symbol-desc">Đại diện cho sự tỉ mỉ, kiên nhẫn và đức hy sinh thầm lặng của những người bà, người mẹ chắt chiu từng khoảnh khắc vì con cháu.</p>
+      </div>
+
+      <div class="symbol-box">
+        <div class="symbol-icon">🧵</div>
+        <h3 class="symbol-title">Sợi Chỉ Nối Liền</h3>
+        <p class="symbol-desc">Sợi chỉ đỏ và vàng biểu trưng cho sợi dây tình cảm thiêng liêng — khoảng cách địa lý có thể xa, nhưng sợi chỉ yêu thương chưa bao giờ đứt gãy.</p>
+      </div>
+
+      <div class="symbol-box">
+        <div class="symbol-icon">🌾</div>
+        <h3 class="symbol-title">Vết Vá Lành Lặn</h3>
+        <p class="symbol-desc">Mỗi lời nhắn được gửi về triển lãm như một mũi thêu chữa lành, lấp đầy nỗi nhớ nhung và trao gửi niềm hy vọng sum vầy.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Section -->
+  <div class="story-card fade-up">
+    <h2>Hành Trình Dự Án</h2>
+    <div class="timeline-section">
+      <div class="timeline-line"></div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Giai đoạn 1 — Khởi động</div>
+        <h3 class="timeline-title">Lời Kêu Gọi Đầu Tiên</h3>
+        <p class="timeline-desc">Mở cổng đăng tải thông điệp và hình ảnh trực tuyến, thu hút các bạn trẻ xa quê cùng chia sẻ câu chuyện gia đình.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Giai đoạn 2 — Dệt Yêu Thương</div>
+        <h3 class="timeline-title">Triển Lãm Số Đa Nền Tảng</h3>
+        <p class="timeline-desc">Trưng bày các tác phẩm ảnh và lời nhắn chọn lọc, kết hợp âm nhạc, postcard thư tay và hoạt động tương tác cộng đồng.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">Giai đoạn 3 — Sum Vầy</div>
+        <h3 class="timeline-title">Chuyến Xe Về Nhà</h3>
+        <p class="timeline-desc">Đồng hành cùng các nhà tài trợ trao tặng vé xe, quà Tết và sách ảnh lưu niệm cho những người con xa quê có hoàn cảnh đặc biệt.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Team / Organizer Section -->
+  <div class="story-card fade-up">
+    <h2>Ban Tổ Chức Dự Án</h2>
+    <p style="color:var(--text-light); margin-bottom: 24px;">Đội ngũ những người trẻ chung một tấm lòng hướng về cội nguồn và gia đình:</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar">👵</div>
+        <div class="team-name">HNgọc & Cộng Sự</div>
+        <div class="team-role">Chủ nhiệm Dự án & Sáng lập</div>
+        <p class="team-desc">Khởi xướng ý tưởng và dẫn dắt thông điệp cảm xúc xuyên suốt toàn bộ hành trình.</p>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">🎨</div>
+        <div class="team-name">Tổ Mỹ Thuật & Nội Dung</div>
+        <div class="team-role">Thiết Kế & Biên Tập</div>
+        <p class="team-desc">Tái hiện chất liệu hoài niệm, chăm chút từng khung hình và câu chữ trưng bày.</p>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">💻</div>
+        <div class="team-name">Tổ Công Nghệ</div>
+        <div class="team-role">Phát Triển Nền Tảng</div>
+        <p class="team-desc">Xây dựng không gian triển lãm số mượt mà, thân thiện và ấm áp cho mọi lứa tuổi.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action CTA -->
+  <div style="text-align: center; margin-top: 40px;" class="fade-up">
+    <h3 style="font-family:'Playfair Display',serif; font-size: 1.6rem; color: var(--brown-dark); margin-bottom: 16px;">
+      Hãy Cùng Chúng Tôi Thêu Nên Bức Tranh Gia Đình
+    </h3>
+    <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <a href="upload.html" class="btn btn-primary">🧵 Gửi lời nhắn của bạn</a>
+      <a href="gallery.html" class="btn btn-outline">🖼️ Thăm quan triển lãm</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <img class="footer-logo" src="logo.png" alt="Khi Nào Cháu Về"/>
+  <div class="footer-stitch">× × × 🪡 × × ×</div>
+  <div class="footer-links">
+    <a href="gallery.html">Triển Lãm</a>
+    <a href="upload.html">Gửi Lời Nhắn</a>
+    <a href="about.html">Về Dự Án</a>
+    <a href="sponsors.html">Nhà Tài Trợ</a>
+    <a href="admin.html" style="opacity:0.6;" title="Khu vực ban tổ chức">🔐 Quản trị</a>
+  </div>
+  <div class="footer-socials">
+    <a href="#">📘</a><a href="#">📸</a><a href="#">🎵</a>
+  </div>
+  <div class="footer-copy">Dệt nên bởi tình yêu — Dự án "Khi Nào Cháu Về" © 2026</div>
+  <div class="footer-tagline">🪡 Mỗi mũi kim — một lần nhớ. Mỗi sợi chỉ — một lời chờ.</div>
+</footer>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

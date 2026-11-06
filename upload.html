@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gửi Lời Nhắn — Khi Nào Cháu Về</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .upload-page {
+      padding: 120px 48px 80px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+      max-width: 1100px; margin: 0 auto; align-items: center;
+    }
+    @media(max-width:860px){
+      .upload-page{ grid-template-columns:1fr; padding:100px 24px 60px; gap:40px; }
+      .upload-illustration{ order:-1; max-width:260px; margin:0 auto; }
+    }
+    .upload-illustration { text-align: center; }
+    .needle-big { width: 100%; max-width: 220px; display:block; margin: 0 auto 24px; }
+    .upload-left-title { text-align: left; }
+    @media(max-width:860px){ .upload-left-title{ text-align:center; } }
+    .success-box {
+      display:none; text-align:center; padding:40px 32px;
+      border: 2px dashed var(--sage); border-radius:20px; background:rgba(124,144,112,.08);
+    }
+    .success-box .icon { font-size: 3rem; margin-bottom:12px; }
+    .success-box h3 { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--sage); margin-bottom:8px; }
+    .success-box p { color:var(--text-light); font-size:.9rem; line-height:1.6; }
+    .char-left { font-size:.72rem; color:var(--text-light); text-align:right; margin-top:3px; }
+    .char-left.warn { color: var(--red-thread); }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+<nav class="navbar">
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Khi Nào Cháu Về"/></a>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Triển Lãm</a></li>
+    <li><a href="upload.html" class="active">Gửi Lời Nhắn</a></li>
+    <li><a href="about.html">Về Dự Án</a></li>
+    <li><a href="sponsors.html">Nhà Tài Trợ</a></li>
+  </ul>
+  <a href="upload.html" class="nav-cta">📸 Gửi lời nhắn</a>
+  <button class="nav-hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="upload-page">
+
+  <!-- LEFT: Illustration + text -->
+  <div class="upload-illustration fade-up">
+    <!-- Needle SVG -->
+    <svg class="needle-big needle-float" viewBox="0 0 160 320" fill="none">
+      <path d="M80 20 Q130 90 55 160 Q-5 220 80 290" stroke="#C0392B" stroke-width="2" fill="none" stroke-dasharray="6 4" opacity=".4"/>
+      <path d="M80 20 Q30 90 105 160 Q170 220 80 290" stroke="#FFD700" stroke-width="1.5" fill="none" stroke-dasharray="6 4" opacity=".3"/>
+      <!-- needle body -->
+      <rect x="68" y="8" width="24" height="200" rx="12" fill="url(#ng2)"/>
+      <!-- eye -->
+      <ellipse cx="80" cy="30" rx="6" ry="10" fill="#FFF8F0" stroke="#8B5E3C" stroke-width="1.5"/>
+      <!-- thread through eye -->
+      <path d="M80 20 Q92 30 80 40" stroke="#C0392B" stroke-width="2.5" fill="none"/>
+      <!-- tip -->
+      <polygon points="68,208 92,208 80,242" fill="#C8A040"/>
+      <!-- shine -->
+      <rect x="74" y="18" width="4" height="90" rx="2" fill="rgba(255,255,255,.28)"/>
+      <defs>
+        <linearGradient id="ng2" x1="68" y1="0" x2="92" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="#B89030"/>
+          <stop offset="40%"  stop-color="#E8C860"/>
+          <stop offset="100%" stop-color="#A07828"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <div class="upload-left-title">
+      <div class="section-label">🧵 Gửi lời nhắn</div>
+      <h1 class="section-title">Khâu Lại<br/>Lời Nhớ Của Bạn</h1>
+      <p class="section-sub">Lời nhắn của bạn sẽ được ban tổ chức xem xét và trưng bày trong triển lãm cho tất cả mọi người cùng đọc.</p>
+      <br/>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;gap:10px;align-items:center;font-size:.85rem;color:var(--text-light);">
+          <span style="font-size:1.1rem;">🖼️</span> Tải lên ảnh kỷ niệm của bạn
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:.85rem;color:var(--text-light);">
+          <span style="font-size:1.1rem;">✍️</span> Viết lời nhắn chân thành
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:.85rem;color:var(--text-light);">
+          <span style="font-size:1.1rem;">🪡</span> Chúng tôi sẽ dệt lời nhớ của bạn vào triển lãm
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="fade-up">
+    <!-- Success state -->
+    <div class="success-box" id="success-box">
+      <div class="icon">🧵</div>
+      <h3>Lời nhắn đã được gửi!</h3>
+      <p>Cảm ơn bạn đã chia sẻ. Ban tổ chức sẽ xem xét và đưa lời nhắn của bạn vào triển lãm sớm nhất có thể.</p>
+      <br/>
+      <a href="gallery.html" class="btn btn-outline btn-sm" style="margin-right:8px;">🖼️ Xem triển lãm</a>
+      <button class="btn btn-primary btn-sm" onclick="resetForm()">📸 Gửi lời nhắn khác</button>
+    </div>
+
+    <!-- Form -->
+    <div class="form-box" id="upload-form-box">
+      <h2 class="form-title">🪡 Gửi lời nhắn của bạn</h2>
+
+      <!-- Drop zone -->
+      <div class="drop-zone" id="drop-zone">
+        <div class="drop-zone-icon">📎</div>
+        <p>Kéo thả ảnh vào đây<br/><span>hoặc <u id="file-browse">chọn từ thiết bị</u> — JPG, PNG, tối đa 10MB</span></p>
+        <input type="file" id="file-input" accept="image/*" multiple style="display:none"/>
+      </div>
+      <div class="preview-wrap" id="preview-wrap"></div>
+
+      <!-- Message -->
+      <div class="form-group">
+        <label>✍️ Lời nhắn của bạn <span style="color:var(--red-thread)">*</span></label>
+        <textarea class="form-control" id="msg-input" maxlength="300"
+          placeholder="Viết lời nhắn gửi đến người thân, quê hương... (tối đa 300 ký tự)"></textarea>
+        <div class="char-left" id="char-left">300 ký tự còn lại</div>
+      </div>
+
+      <!-- Name -->
+      <div class="form-group">
+        <label>👤 Tên của bạn</label>
+        <input class="form-control" type="text" id="name-input" placeholder="Tên hoặc biệt danh"/>
+      </div>
+      <div class="anon-row">
+        <input type="checkbox" id="anon-check"/>
+        <label for="anon-check">Đăng ẩn danh</label>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label>📍 Địa danh <span style="font-weight:400;color:var(--text-light)">(tùy chọn)</span></label>
+        <input class="form-control" type="text" id="loc-input" placeholder="VD: Hà Nội, Sài Gòn, Huế..."/>
+      </div>
+
+      <!-- Emotion -->
+      <label style="font-size:.8rem;font-weight:600;color:var(--brown);font-family:'Nunito',sans-serif;margin-bottom:8px;display:block;">💛 Cảm xúc của bạn</label>
+      <div class="emotion-row" id="emotion-row">
+        <button class="emotion-chip" data-emotion="miss">🏠 Nhớ nhà</button>
+        <button class="emotion-chip" data-emotion="proud">🌟 Tự hào</button>
+        <button class="emotion-chip" data-emotion="happy">😊 Vui</button>
+        <button class="emotion-chip" data-emotion="gratitude">🙏 Biết ơn</button>
+      </div>
+
+      <button class="btn-submit" id="submit-btn" onclick="handleSubmit()">
+        🧵 KHÂU LẠI LỜI NHỚ
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<footer class="site-footer">
+  <img class="footer-logo" src="logo.png" alt="Khi Nào Cháu Về"/>
+  <div class="footer-stitch">× × × 🪡 × × ×</div>
+  <div class="footer-links">
+    <a href="gallery.html">Triển Lãm</a>
+    <a href="upload.html">Gửi Lời Nhắn</a>
+    <a href="about.html">Về Dự Án</a>
+    <a href="sponsors.html">Nhà Tài Trợ</a>
+    <a href="admin.html" style="opacity:0.6;" title="Khu vực ban tổ chức">🔐 Quản trị</a>
+  </div>
+  <div class="footer-socials"><a href="#">📘</a><a href="#">📸</a><a href="#">🎵</a></div>
+  <div class="footer-copy">Dệt nên bởi tình yêu — Dự án "Khi Nào Cháu Về" © 2026</div>
+</footer>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  let selectedEmotion = '';
+  let selectedFiles   = [];
+
+  // Drop zone
+  const dropZone  = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  document.getElementById('file-browse').onclick = () => fileInput.click();
+  dropZone.addEventListener('click', () => fileInput.click());
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault(); dropZone.classList.remove('drag-over');
+    handleFiles([...e.dataTransfer.files]);
+  });
+  fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
+
+  function handleFiles(files) {
+    selectedFiles = files.filter(f => f.type.startsWith('image/'));
+    const wrap = document.getElementById('preview-wrap');
+    wrap.innerHTML = '';
+    selectedFiles.forEach(f => {
+      const url = URL.createObjectURL(f);
+      const img = document.createElement('img');
+      img.src = url; img.className = 'preview-img';
+      wrap.appendChild(img);
+    });
+  }
+
+  // Char counter
+  document.getElementById('msg-input').addEventListener('input', function() {
+    const left = 300 - this.value.length;
+    const el = document.getElementById('char-left');
+    el.textContent = left + ' ký tự còn lại';
+    el.classList.toggle('warn', left < 50);
+  });
+
+  // Emotion chips
+  document.getElementById('emotion-row').addEventListener('click', e => {
+    const chip = e.target.closest('.emotion-chip');
+    if (!chip) return;
+    document.querySelectorAll('.emotion-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    selectedEmotion = chip.dataset.emotion;
+  });
+
+  // Anon toggle
+  document.getElementById('anon-check').addEventListener('change', function() {
+    document.getElementById('name-input').disabled = this.checked;
+    document.getElementById('name-input').style.opacity = this.checked ? '.4' : '1';
+  });
+
+  async function handleSubmit() {
+    const msg   = document.getElementById('msg-input').value.trim();
+    const isAnon = document.getElementById('anon-check').checked;
+    const name  = isAnon ? 'Ẩn danh' : (document.getElementById('name-input').value.trim() || 'Ẩn danh');
+    const loc   = document.getElementById('loc-input').value.trim();
+
+    if (!msg) { showToast('⚠️ Vui lòng viết lời nhắn của bạn!'); return; }
+
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = '⏳ Đang gửi...'; btn.disabled = true;
+
+    let imgBase64 = '';
+    if (selectedFiles.length > 0) {
+      try { imgBase64 = await fileToBase64(selectedFiles[0]); } catch(e) {}
+    }
+
+    const post = { name, location: loc, message: msg, emotion: selectedEmotion, imgBase64 };
+    if (!imgBase64) {
+      const icons  = ['🌾','🌿','🌸','🌊','🏡','☀️','💜','⭐'];
+      const colors = ['#F5EBD8','#D4E8D0','#FFD6CC','#C8E6E0','#E8D5B7','#FFF3CD','#EDD5F7','#F7EDD5'];
+      const r = Math.floor(Math.random() * icons.length);
+      post.imgIcon = icons[r]; post.imgColor = colors[r];
+    }
+
+    setTimeout(() => {
+      savePost(post);
+      document.getElementById('upload-form-box').style.display = 'none';
+      document.getElementById('success-box').style.display = 'block';
+    }, 800);
+  }
+
+  function resetForm() {
+    document.getElementById('upload-form-box').style.display = 'block';
+    document.getElementById('success-box').style.display = 'none';
+    document.getElementById('msg-input').value = '';
+    document.getElementById('name-input').value = '';
+    document.getElementById('loc-input').value = '';
+    document.getElementById('preview-wrap').innerHTML = '';
+    document.querySelectorAll('.emotion-chip').forEach(c => c.classList.remove('active'));
+    document.getElementById('char-left').textContent = '300 ký tự còn lại';
+    document.getElementById('submit-btn').textContent = '🧵 KHÂU LẠI LỜI NHỚ';
+    document.getElementById('submit-btn').disabled = false;
+    selectedEmotion = ''; selectedFiles = [];
+  }
+</script>
+</body>
+</html>

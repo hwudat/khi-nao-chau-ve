@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Khi Nào Cháu Về — Phác thảo giao diện</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #FFF8F0;
+      --cream2:   #F5EBD8;
+      --brown:    #8B5E3C;
+      --brown-dark: #5C3D22;
+      --yellow:   #FFD700;
+      --yellow2:  #E6B800;
+      --sage:     #7C9070;
+      --red-thread: #C0392B;
+      --beige:    #E8D5B7;
+      --text:     #3A2A1A;
+      --text-light: #7A6A5A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ═══ TEXTURE OVERLAY ═══ */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(139,94,60,.03) 25px),
+        repeating-linear-gradient(90deg, transparent, transparent 24px, rgba(139,94,60,.03) 25px);
+    }
+
+    /* ═══ NAVBAR ═══ */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(255,248,240,.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px dashed var(--beige);
+      padding: 12px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo img { height: 44px; object-fit: contain; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'Nunito', sans-serif; font-weight: 600; font-size: .9rem;
+      color: var(--brown); text-decoration: none; letter-spacing: .5px;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px;
+      background: var(--red-thread); transition: width .3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      background: var(--yellow); color: var(--brown-dark);
+      font-family: 'Nunito', sans-serif; font-weight: 800;
+      border: 2.5px solid var(--brown-dark); border-radius: 50px;
+      padding: 8px 22px; font-size: .88rem; cursor: pointer;
+      text-decoration: none; letter-spacing: .5px;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 3px 3px 0 var(--brown-dark);
+    }
+    .nav-cta:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--brown-dark); }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; padding: 100px 24px 60px; position: relative; overflow: hidden;
+      text-align: center;
+    }
+
+    /* background decorative circles */
+    .hero::before {
+      content: '';
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,215,0,.12) 0%, transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+
+    /* Needle SVG — left side */
+    .needle-deco {
+      position: absolute; left: 6%; top: 50%; transform: translateY(-50%);
+      width: 90px; opacity: .85;
+      animation: needle-sway 4s ease-in-out infinite;
+    }
+    @keyframes needle-sway {
+      0%,100% { transform: translateY(-50%) rotate(-3deg); }
+      50%      { transform: translateY(-52%) rotate(3deg); }
+    }
+
+    /* Thread line from logo down */
+    .thread-line {
+      width: 2px; height: 44px;
+      background: linear-gradient(to bottom, var(--red-thread), transparent);
+      margin: 0 auto 20px; border-radius: 2px;
+      animation: thread-grow 2s ease-out forwards;
+    }
+    @keyframes thread-grow {
+      from { height: 0; opacity: 0; }
+      to   { height: 60px; opacity: 1; }
+    }
+
+    .hero-logo {
+      width: min(780px, 94vw);
+      filter: drop-shadow(0 12px 60px rgba(255,215,0,.6));
+      animation: logo-in .8s cubic-bezier(.22,1,.36,1) forwards;
+      opacity: 0; transform: translateY(20px);
+    }
+    @keyframes logo-in {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-slogan {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1.05rem, 2.4vw, 1.4rem); color: var(--text-light);
+      margin: 28px 0 36px; max-width: 540px; line-height: 1.7;
+    }
+    .hero-slogan strong { color: var(--red-thread); font-style: normal; }
+
+    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
+    .btn-primary {
+      background: var(--yellow); color: var(--brown-dark);
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+      border: 2.5px solid var(--brown-dark); border-radius: 50px;
+      padding: 14px 32px; cursor: pointer; text-decoration: none;
+      box-shadow: 4px 4px 0 var(--brown-dark);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover { transform: translate(-3px,-3px); box-shadow: 7px 7px 0 var(--brown-dark); }
+    .btn-outline {
+      background: transparent; color: var(--brown);
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1rem;
+      border: 2.5px solid var(--brown); border-radius: 50px;
+      padding: 14px 32px; cursor: pointer; text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+    .btn-outline:hover { background: var(--brown); color: var(--cream); }
+
+    /* Stats */
+    .hero-stats {
+      display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;
+    }
+    .stat {
+      text-align: center;
+      padding: 16px 24px;
+      border: 2px dashed var(--beige);
+      border-radius: 16px;
+      background: rgba(255,255,255,.6);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+      color: var(--brown); display: block;
+    }
+    .stat-label { font-size: .8rem; color: var(--text-light); margin-top: 2px; }
+
+    /* ═══ DIVIDER (stitching) ═══ */
+    .stitch-divider {
+      text-align: center; color: var(--beige);
+      font-size: 1.1rem; letter-spacing: 6px;
+      margin: 0; padding: 8px 0;
+      position: relative;
+    }
+    .stitch-divider::before,
+    .stitch-divider::after {
+      content: '';
+      display: inline-block; width: 80px; height: 2px;
+      background: var(--beige); vertical-align: middle; margin: 0 12px;
+    }
+
+    /* ═══ SECTION COMMON ═══ */
+    section { padding: 80px 48px; position: relative; z-index: 1; }
+    .section-label {
+      font-family: 'Nunito', sans-serif; font-weight: 800;
+      font-size: .78rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--red-thread); margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      color: var(--brown-dark); line-height: 1.25; margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: .95rem; color: var(--text-light); max-width: 500px; line-height: 1.65;
+    }
+
+    /* ═══ GALLERY ═══ */
+    .gallery-section { background: var(--cream); }
+    .gallery-header { text-align: center; margin-bottom: 36px; }
+
+    /* Filter tags */
+    .filter-bar {
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 36px;
+    }
+    .filter-tag {
+      font-family: 'Nunito', sans-serif; font-weight: 700; font-size: .82rem;
+      padding: 7px 18px; border-radius: 50px;
+      border: 2px solid var(--beige); background: white;
+      color: var(--text-light); cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-tag.active, .filter-tag:hover {
+      border-color: var(--brown); background: var(--brown); color: white;
+    }
+
+    /* Masonry grid */
+    .masonry {
+      columns: 4; column-gap: 20px;
+      max-width: 1200px; margin: 0 auto;
+    }
+    @media (max-width: 1100px) { .masonry { columns: 3; } }
+    @media (max-width: 768px)  { .masonry { columns: 2; } }
+
+    .card {
+      break-inside: avoid; margin-bottom: 20px;
+      background: white;
+      border: 2px dashed var(--brown);
+      border-radius: 12px; overflow: hidden;
+      position: relative;
+      transition: transform .25s, box-shadow .25s;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-6px) rotate(.5deg);
+      box-shadow: 8px 8px 0 var(--beige);
+    }
+
+    /* Stitch corners */
+    .card::before, .card::after {
+      content: '✕';
+      position: absolute; font-size: .7rem; color: var(--brown); opacity: .5;
+      line-height: 1;
+    }
+    .card::before { top: 6px; left: 8px; }
+    .card::after  { top: 6px; right: 8px; }
+
+    .card-img {
+      width: 100%; display: block;
+      background: var(--cream2);
+      position: relative; overflow: hidden;
+    }
+    .card-img-placeholder {
+      width: 100%; display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; color: var(--beige);
+    }
+    .card-body { padding: 14px 16px 18px; }
+    .card-message {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: .88rem; color: var(--text); line-height: 1.6; margin-bottom: 10px;
+    }
+    .card-meta {
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .card-name {
+      font-family: 'Nunito', sans-serif; font-weight: 700;
+      font-size: .78rem; color: var(--brown);
+    }
+    .card-dot { color: var(--beige); }
+    .card-location { font-size: .75rem; color: var(--text-light); }
+    .card-tag {
+      margin-left: auto;
+      font-size: .7rem; font-family: 'Nunito', sans-serif; font-weight: 700;
+      padding: 3px 10px; border-radius: 50px;
+      border: 1.5px solid currentColor;
+    }
+    .tag-miss    { color: #6B8FB5; }
+    .tag-proud   { color: var(--sage); }
+    .tag-happy   { color: #E67E22; }
+    .tag-gratitude { color: var(--red-thread); }
+
+    /* Sponsor badge on card */
+    .card-sponsor-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: var(--yellow); color: var(--brown-dark);
+      font-family: 'Nunito', sans-serif; font-weight: 800;
+      font-size: .65rem; padding: 3px 10px; border-radius: 50px;
+      border: 1.5px solid var(--brown-dark);
+    }
+
+    /* ═══ UPLOAD SECTION ═══ */
+    .upload-section {
+      background: var(--cream2);
+      position: relative; overflow: hidden;
+    }
+    .upload-section::before {
+      content: '';
+      position: absolute; right: -60px; top: 50%; transform: translateY(-50%);
+      width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,215,0,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .upload-inner {
+      max-width: 760px; margin: 0 auto; display: grid;
+      grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    @media (max-width: 768px) { .upload-inner { grid-template-columns: 1fr; } }
+
+    .upload-needle {
+      width: 100%; max-width: 220px; margin: 0 auto; display: block;
+      animation: needle-float 3s ease-in-out infinite;
+    }
+    @keyframes needle-float {
+      0%,100% { transform: translateY(0) rotate(-5deg); }
+      50%      { transform: translateY(-12px) rotate(5deg); }
+    }
+
+    .form-box {
+      background: white;
+      border: 2px dashed var(--brown);
+      border-radius: 20px; padding: 32px;
+      box-shadow: 6px 6px 0 var(--beige);
+      position: relative;
+    }
+    .form-box::before { content: '✕'; position: absolute; top: 10px; left: 14px; font-size: .8rem; color: var(--brown); opacity: .4; }
+    .form-box::after  { content: '✕'; position: absolute; top: 10px; right: 14px; font-size: .8rem; color: var(--brown); opacity: .4; }
+
+    .form-title {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem;
+      color: var(--brown-dark); margin-bottom: 20px; text-align: center;
+    }
+    .drop-zone {
+      border: 2px dashed var(--beige); border-radius: 12px;
+      padding: 28px; text-align: center; background: var(--cream);
+      margin-bottom: 16px; cursor: pointer; transition: border-color .2s;
+    }
+    .drop-zone:hover { border-color: var(--brown); }
+    .drop-zone-icon { font-size: 2rem; margin-bottom: 6px; }
+    .drop-zone p { font-size: .82rem; color: var(--text-light); }
+
+    .form-group { margin-bottom: 14px; }
+    .form-group label {
+      display: block; font-size: .8rem; font-weight: 600;
+      color: var(--brown); margin-bottom: 5px;
+      font-family: 'Nunito', sans-serif;
+    }
+    .form-control {
+      width: 100%; padding: 10px 14px;
+      border: 1.5px solid var(--beige); border-radius: 10px;
+      font-family: 'Inter', sans-serif; font-size: .88rem;
+      color: var(--text); background: var(--cream);
+      outline: none; transition: border-color .2s;
+    }
+    .form-control:focus { border-color: var(--brown); }
+    textarea.form-control { resize: vertical; min-height: 80px; }
+
+    .emotion-row {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;
+    }
+    .emotion-chip {
+      font-size: .75rem; font-family: 'Nunito', sans-serif; font-weight: 700;
+      padding: 5px 12px; border-radius: 50px;
+      border: 1.5px solid var(--beige); background: white;
+      cursor: pointer; transition: all .2s; color: var(--text-light);
+    }
+    .emotion-chip:hover, .emotion-chip.active {
+      border-color: var(--red-thread); color: var(--red-thread);
+      background: rgba(192,57,43,.06);
+    }
+
+    .btn-submit {
+      width: 100%; padding: 14px;
+      background: var(--brown); color: var(--cream);
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+      border: 2.5px solid var(--brown-dark); border-radius: 50px;
+      cursor: pointer; letter-spacing: .5px;
+      box-shadow: 3px 3px 0 var(--brown-dark);
+      transition: transform .2s, box-shadow .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-submit:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--brown-dark); }
+
+    /* ═══ SPONSOR SECTION ═══ */
+    .sponsor-section { background: var(--cream); }
+    .sponsor-header { text-align: center; margin-bottom: 40px; }
+
+    .sponsor-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px; max-width: 960px; margin: 0 auto;
+    }
+    .sponsor-card {
+      border: 2px dashed var(--beige); border-radius: 16px;
+      padding: 28px 20px; text-align: center; background: white;
+      transition: transform .2s, box-shadow .2s; cursor: pointer;
+      position: relative;
+    }
+    .sponsor-card::before { content: '✕'; position: absolute; top: 8px; left: 10px; font-size: .7rem; color: var(--beige); }
+    .sponsor-card::after  { content: '✕'; position: absolute; top: 8px; right: 10px; font-size: .7rem; color: var(--beige); }
+    .sponsor-card:hover { transform: translateY(-4px); box-shadow: 6px 6px 0 var(--beige); border-color: var(--brown); }
+    .sponsor-logo-box {
+      width: 70px; height: 70px; border-radius: 16px;
+      background: var(--cream2); margin: 0 auto 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+    }
+    .sponsor-name {
+      font-family: 'Playfair Display', serif; font-size: 1.05rem;
+      color: var(--brown-dark); margin-bottom: 6px;
+    }
+    .sponsor-desc { font-size: .8rem; color: var(--text-light); line-height: 1.5; }
+    .sponsor-tier {
+      display: inline-block; margin-top: 10px;
+      font-size: .68rem; font-family: 'Nunito', sans-serif; font-weight: 800;
+      padding: 3px 12px; border-radius: 50px;
+      background: var(--yellow); color: var(--brown-dark);
+      border: 1.5px solid var(--brown-dark);
+    }
+
+    /* ═══ FOOTER ═══ */
+    footer {
+      background: var(--brown-dark); color: var(--cream);
+      padding: 48px; text-align: center;
+      border-top: 4px solid var(--brown);
+    }
+    .footer-logo { height: 48px; filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(5deg); margin-bottom: 16px; }
+    .footer-stitch {
+      letter-spacing: 8px; color: var(--yellow); font-size: .9rem; margin-bottom: 20px;
+    }
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+    .footer-links a { color: var(--beige); text-decoration: none; font-size: .85rem; }
+    .footer-links a:hover { color: var(--yellow); }
+    .footer-copy { font-size: .78rem; color: rgba(232,213,183,.5); margin-top: 8px; }
+
+    /* ═══ NEEDLE SVG INLINE ═══ */
+    .needle-svg-hero {
+      position: absolute; right: 7%; top: 50%; transform: translateY(-50%);
+      width: 110px; opacity: .7;
+      animation: needle-sway 5s ease-in-out infinite;
+    }
+
+    /* ═══ ABOUT TEASER ═══ */
+    .about-section {
+      background: var(--cream2); text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .about-thread-line {
+      width: 2px; height: 80px; background: var(--red-thread);
+      margin: 0 auto 32px; border-radius: 2px; opacity: .5;
+    }
+    .about-content { max-width: 640px; margin: 0 auto; }
+    .about-content p {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 1.15rem; color: var(--text); line-height: 1.8;
+    }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+      font-size: .78rem; color: var(--text-light); letter-spacing: 2px;
+      text-transform: uppercase; animation: bounce .9s ease-in-out infinite;
+    }
+    @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+    /* ═══ MOCKUP LABEL ═══ */
+    .mockup-badge {
+      position: fixed; bottom: 20px; right: 20px; z-index: 999;
+      background: var(--red-thread); color: white;
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .78rem;
+      padding: 8px 16px; border-radius: 50px; letter-spacing: 1px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    }
+  </style>
+</head>
+<body>
+
+<!-- MOCKUP BADGE -->
+<div class="mockup-badge">🎨 PHÁC THẢO</div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="Khi Nào Cháu Về" />
+  </div>
+  <ul class="nav-links">
+    <li><a href="#gallery">Triển Lãm</a></li>
+    <li><a href="#upload">Gửi Lời Nhắn</a></li>
+    <li><a href="#about">Về Dự Án</a></li>
+    <li><a href="#sponsors">Nhà Tài Trợ</a></li>
+  </ul>
+  <a href="#upload" class="nav-cta">📸 GỬI LỜI NHẮN</a>
+</nav>
+
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+
+  <!-- Needle deco left -->
+  <svg class="needle-deco" viewBox="0 0 60 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- thread curve -->
+    <path d="M30 20 Q55 80 20 140 Q-5 190 30 220" stroke="#C0392B" stroke-width="1.5" fill="none" stroke-dasharray="4 3" opacity=".6"/>
+    <!-- needle body -->
+    <rect x="25" y="10" width="10" height="140" rx="5" fill="#D4A853" />
+    <!-- needle eye -->
+    <ellipse cx="30" cy="22" rx="3.5" ry="6" fill="#FFF8F0" stroke="#8B5E3C" stroke-width="1"/>
+    <!-- needle tip -->
+    <polygon points="25,150 35,150 30,175" fill="#D4A853"/>
+    <!-- thread through eye -->
+    <path d="M30 16 Q38 22 30 28" stroke="#C0392B" stroke-width="1.5" fill="none"/>
+  </svg>
+
+  <!-- Needle deco right -->
+  <svg class="needle-svg-hero" viewBox="0 0 60 220" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation-delay:1.5s">
+    <path d="M30 20 Q5 80 40 140 Q65 190 30 220" stroke="#FFD700" stroke-width="1.5" fill="none" stroke-dasharray="4 3" opacity=".5"/>
+    <rect x="25" y="10" width="10" height="140" rx="5" fill="#C8A040" />
+    <ellipse cx="30" cy="22" rx="3.5" ry="6" fill="#FFF8F0" stroke="#8B5E3C" stroke-width="1"/>
+    <polygon points="25,150 35,150 30,175" fill="#C8A040"/>
+    <path d="M30 16 Q38 22 30 28" stroke="#FFD700" stroke-width="1.5" fill="none"/>
+  </svg>
+
+  <!-- Logo -->
+  <img class="hero-logo" src="logo.png" alt="Khi Nào Cháu Về" />
+
+  <!-- Thread line -->
+  <div class="thread-line"></div>
+
+  <!-- Slogan -->
+  <p class="hero-slogan">
+    Mỗi mũi kim — một lần nhớ.<br/>
+    <strong>Mỗi sợi chỉ — một lời chờ.</strong>
+  </p>
+
+  <!-- CTA -->
+  <div class="hero-buttons">
+    <a href="#gallery" class="btn-primary">🖼️ XEM TRIỂN LÃM</a>
+    <a href="#upload" class="btn-outline">🧵 GỬI LỜI NHẮN</a>
+  </div>
+
+  <!-- Stats -->
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">1,247</span>
+      <span class="stat-label">🪡 lời nhắn đã được khâu lại</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">63</span>
+      <span class="stat-label">📍 tỉnh thành</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">12</span>
+      <span class="stat-label">💼 nhà tài trợ đồng hành</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">▼ &nbsp; cuộn xuống</div>
+</section>
+
+
+<!-- ═══ STITCH DIVIDER ═══ -->
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+
+<!-- ═══ GALLERY ═══ -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-header">
+    <div class="section-label">🖼️ Triển lãm</div>
+    <h2 class="section-title">Những Lời Nhắn Được Khâu Lại</h2>
+    <p class="section-sub" style="margin:0 auto;">Mỗi tấm ảnh là một mảnh ký ức. Mỗi lời nhắn là một sợi chỉ nối liền trái tim.</p>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter-bar">
+    <button class="filter-tag active">Tất cả</button>
+    <button class="filter-tag">🏠 Nhớ nhà</button>
+    <button class="filter-tag">🌟 Tự hào</button>
+    <button class="filter-tag">😊 Vui</button>
+    <button class="filter-tag">🙏 Biết ơn</button>
+  </div>
+
+  <!-- Masonry cards -->
+  <div class="masonry">
+
+    <!-- Card 1 -->
+    <div class="card">
+      <div class="card-img" style="height:200px;background:linear-gradient(135deg,#F5EBD8,#E8D5B7);">
+        <div class="card-img-placeholder" style="height:200px;">🌾</div>
+      </div>
+      <div class="card-body">
+        <p class="card-message">"Bà ơi, con nhớ mùi cơm bà nấu mỗi chiều tà lắm. Khi nào về con sẽ ăn thật nhiều nhé."</p>
+        <div class="card-meta">
+          <span class="card-name">Minh Châu</span>
+          <span class="card-dot">·</span>
+          <span class="card-location">📍 TP.HCM</span>
+          <span class="card-tag tag-miss">Nhớ nhà</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 — tall -->
+    <div class="card">
+      <div class="card-img" style="height:280px;background:linear-gradient(135deg,#D4E8D0,#B8D4B0);">
+        <div class="card-img-placeholder" style="height:280px;">🌿</div>
+      </div>
+      <div class="card-body">
+        <p class="card-message">"Con đã tốt nghiệp rồi ba mẹ ơi! Thành quả này con dành cho cả gia đình mình."</p>
+        <div class="card-meta">
+          <span class="card-name">Thanh Hà</span>
+          <span class="card-dot">·</span>
+          <span class="card-location">📍 Hà Nội</span>
+          <span class="card-tag tag-proud">Tự hào</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 — Sponsor -->
+    <div class="card" style="border-color:#FFD700; border-width:2.5px;">
+      <div class="card-sponsor-badge">🪡 Đồng hành bởi Brand A</div>
+      <div class="card-img" style="height:160px;background:linear-gradient(135deg,#FFF3CD,#FFE082);">
+        <div class="card-img-placeholder" style="height:160px;">☀️</div>
+      </div>
+      <div class="card-body">
+        <p class="card-message">"Ở xa nhưng lòng vẫn hướng về mái ấm. Cảm ơn dự án đã cho con nơi để gửi lời nhớ."</p>
+        <div class="card-meta">
+          <span class="card-name">Hoàng Long</span>
+          <span class="card-dot">·</span>
+          <span class="card-location">📍 Đà Nẵng</span>
+          <span class="card-tag tag-gratitude">Biết ơn</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="card">
+      <div class="card-img" style="height:240px;background:linear-gradient(135deg,#FFD6CC,#F4A799);">
+        <div class="card-img-placeholder" style="height:240px;">🌸</div>
+      </div>
+      <div class="card-body">
+        <p class="card-message">"Hôm nay trời Hà Nội đẹp lắm, con chụp lại gửi cho mẹ xem. Nhớ mẹ nhiều."</p>
+        <div class="card-meta">
+          <span class="card-name">Lan Anh</span>
+          <span class="card-dot">·</span>
+          <span class="card-location">📍 Hà Nội</span>
+          <span class="card-tag tag-miss">Nhớ nhà</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="card">
+      <div class="card-img" style="height:180px;background:linear-gradient(135deg,#C8E6E0,#A0CFC8);">
+        <div class="card-img-placeholder" style="height:180px;">🌊</div>
+      </div>
+      <div class="card-body">
+        <p class="card-message">"Mỗi lần nhìn biển con lại nghĩ đến ba, người đã dạy con bơi năm 7 tuổi."</p>
+        <div class="card-meta">
+          <span class="card-name">Ẩn danh</span>
+          <span class="card-dot">·</span>
+          <span class="card-location">📍 Nha Trang</span>
+          <span class="card-tag tag-proud">Tự hào</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="card">
+      <div class="card-img" style="height:220px;background:linear-gradient(135deg,#E8D5B7,#D4B896);">
+        <div class="card-img-placeholder" style="height:220px;">🏡</div>
+      </div>
+      <div class="card-body">
+        <p class="card-message">"Căn nhà cũ vẫn còn đó, chỉ có người đã thay đổi. Con sẽ về thăm bà vào tết này."</p>
+        <div class="card-meta">
+          <span class="card-name">Văn Khoa</span>
+          <span class="card-dot">·</span>
+          <span class="card-location">📍 Cần Thơ</span>
+          <span class="card-tag tag-happy">Vui</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /masonry -->
+
+  <div style="text-align:center;margin-top:40px;">
+    <a href="#" class="btn-outline">Xem thêm →</a>
+  </div>
+</section>
+
+
+<!-- ═══ STITCH DIVIDER ═══ -->
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+
+<!-- ═══ UPLOAD ═══ -->
+<section class="upload-section" id="upload">
+  <div class="upload-inner">
+
+    <!-- Illustration -->
+    <div>
+      <svg class="upload-needle" viewBox="0 0 160 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- decorative thread spiral -->
+        <path d="M80 20 Q130 80 60 140 Q-10 200 80 260 Q140 300 100 320" stroke="#C0392B" stroke-width="2" fill="none" opacity=".4" stroke-dasharray="6 4"/>
+        <path d="M80 20 Q30 80 100 140 Q170 200 80 260" stroke="#FFD700" stroke-width="1.5" fill="none" opacity=".3" stroke-dasharray="6 4"/>
+        <!-- needle -->
+        <rect x="68" y="8" width="24" height="200" rx="12" fill="url(#needleGrad)"/>
+        <!-- eye of needle -->
+        <ellipse cx="80" cy="30" rx="6" ry="10" fill="#FFF8F0" stroke="#8B5E3C" stroke-width="1.5"/>
+        <!-- thread through eye -->
+        <path d="M80 20 Q92 30 80 40" stroke="#C0392B" stroke-width="2" fill="none"/>
+        <!-- needle point -->
+        <polygon points="68,208 92,208 80,240" fill="#C8A040"/>
+        <!-- shine -->
+        <rect x="74" y="20" width="4" height="80" rx="2" fill="rgba(255,255,255,.3)"/>
+        <defs>
+          <linearGradient id="needleGrad" x1="68" y1="0" x2="92" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#C8A040"/>
+            <stop offset="40%" stop-color="#E8C860"/>
+            <stop offset="100%" stop-color="#A07828"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div style="text-align:center;margin-top:20px;">
+        <div class="section-label">🧵 Gửi lời nhắn</div>
+        <h2 class="section-title" style="font-size:1.6rem;">Khâu Lại<br/>Lời Nhớ Của Bạn</h2>
+        <p class="section-sub" style="font-size:.88rem;">Mỗi lời nhắn được gửi lên sẽ được ban tổ chức duyệt và trưng bày trong triển lãm.</p>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-box">
+      <h3 class="form-title">🪡 Gửi lời nhắn của bạn</h3>
+
+      <div class="drop-zone">
+        <div class="drop-zone-icon">📎</div>
+        <p>Kéo thả ảnh vào đây<br/><span style="font-size:.75rem;">hoặc <u>chọn từ thiết bị</u> — JPG, PNG, tối đa 10MB</span></p>
+      </div>
+
+      <div class="form-group">
+        <label>✍️ Lời nhắn của bạn</label>
+        <textarea class="form-control" placeholder="Viết lời nhắn gửi đến người thân, quê hương... (tối đa 300 ký tự)"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>👤 Tên của bạn</label>
+        <input class="form-control" type="text" placeholder="Tên hoặc biệt danh" />
+      </div>
+
+      <div class="form-group">
+        <label>📍 Địa danh <span style="font-weight:400;color:var(--text-light)">(tùy chọn)</span></label>
+        <input class="form-control" type="text" placeholder="VD: Hà Nội, Sài Gòn, Huế..." />
+      </div>
+
+      <label style="font-size:.8rem;font-weight:600;color:var(--brown);font-family:'Nunito',sans-serif;margin-bottom:8px;display:block;">💛 Cảm xúc</label>
+      <div class="emotion-row">
+        <button class="emotion-chip active">🏠 Nhớ nhà</button>
+        <button class="emotion-chip">🌟 Tự hào</button>
+        <button class="emotion-chip">😊 Vui</button>
+        <button class="emotion-chip">🙏 Biết ơn</button>
+      </div>
+
+      <button class="btn-submit">
+        🧵 KHÂU LẠI LỜI NHỚ
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ STITCH DIVIDER ═══ -->
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+
+<!-- ═══ ABOUT TEASER ═══ -->
+<section class="about-section" id="about">
+  <div class="about-thread-line"></div>
+  <div class="about-content">
+    <div class="section-label" style="text-align:center;">📖 Về dự án</div>
+    <h2 class="section-title" style="margin-bottom:24px;">Tại Sao Lại Là<br/>"Khi Nào Cháu Về"?</h2>
+    <p>"Có những khoảng cách không phải lúc nào cũng lấp đầy được bằng cuộc gọi hay tin nhắn. Dự án ra đời để trao cho mỗi người một mảnh vải — nơi họ có thể thêu lên đó lời nhớ, lời thương, và lời hứa sẽ trở về."</p>
+    <br/>
+    <a href="#" class="btn-outline" style="display:inline-block;margin-top:8px;">Đọc thêm →</a>
+  </div>
+</section>
+
+
+<!-- ═══ STITCH DIVIDER ═══ -->
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+
+<!-- ═══ SPONSORS ═══ -->
+<section class="sponsor-section" id="sponsors">
+  <div class="sponsor-header">
+    <div class="section-label">💼 Nhà tài trợ</div>
+    <h2 class="section-title">🧵 Những Sợi Chỉ Đồng Hành</h2>
+    <p class="section-sub" style="margin:0 auto;">Những thương hiệu đã góp phần dệt nên dự án ý nghĩa này.</p>
+  </div>
+
+  <div class="sponsor-grid">
+    <div class="sponsor-card">
+      <div class="sponsor-logo-box">🏷️</div>
+      <div class="sponsor-name">Brand A</div>
+      <div class="sponsor-desc">Đồng hành cùng dự án từ những ngày đầu, lan tỏa yêu thương.</div>
+      <span class="sponsor-tier">⭐ Kim Cương</span>
+    </div>
+    <div class="sponsor-card">
+      <div class="sponsor-logo-box">🌿</div>
+      <div class="sponsor-name">Brand B</div>
+      <div class="sponsor-desc">Tin vào sức mạnh của ký ức và những lời nhắn chân thành.</div>
+      <span class="sponsor-tier" style="background:var(--beige);border-color:var(--brown);">🥈 Bạch Kim</span>
+    </div>
+    <div class="sponsor-card">
+      <div class="sponsor-logo-box">☀️</div>
+      <div class="sponsor-name">Brand C</div>
+      <div class="sponsor-desc">Kết nối cộng đồng, gắn kết gia đình qua từng khoảnh khắc.</div>
+      <span class="sponsor-tier" style="background:var(--beige);border-color:var(--brown);">🥈 Bạch Kim</span>
+    </div>
+    <div class="sponsor-card">
+      <div class="sponsor-logo-box">🎀</div>
+      <div class="sponsor-name">Brand D</div>
+      <div class="sponsor-desc">Ủng hộ các dự án văn hóa cộng đồng mang giá trị nhân văn.</div>
+      <span class="sponsor-tier" style="background:#f0f0f0;border-color:#ccc;color:#666;">🥉 Vàng</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:40px;">
+    <p style="font-size:.88rem;color:var(--text-light);margin-bottom:16px;">Muốn đồng hành cùng dự án?</p>
+    <a href="#" class="btn-outline">📩 Liên hệ hợp tác</a>
+  </div>
+</section>
+
+
+<!-- ═══ FOOTER ═══ -->
+<div class="stitch-divider" style="background:var(--brown-dark);color:var(--brown);border:none;">× × × × × × × × × × × × × × ×</div>
+
+<footer>
+  <img class="footer-logo" src="logo.png" alt="Khi Nào Cháu Về" />
+  <div class="footer-stitch">× × × × 🪡 × × × ×</div>
+  <div class="footer-links">
+    <a href="#">Triển Lãm</a>
+    <a href="#">Gửi Lời Nhắn</a>
+    <a href="#">Về Dự Án</a>
+    <a href="#">Nhà Tài Trợ</a>
+    <a href="#">Liên Hệ</a>
+  </div>
+  <div style="display:flex;gap:16px;justify-content:center;margin-bottom:20px;">
+    <a href="#" style="color:var(--yellow);font-size:1.3rem;text-decoration:none;">📘</a>
+    <a href="#" style="color:var(--yellow);font-size:1.3rem;text-decoration:none;">📸</a>
+    <a href="#" style="color:var(--yellow);font-size:1.3rem;text-decoration:none;">🎵</a>
+  </div>
+  <div class="footer-copy">
+    Dệt nên bởi tình yêu — Dự án "Khi Nào Cháu Về" © 2026<br/>
+    <span style="color:rgba(255,215,0,.4);font-size:.7rem;">🪡 Mỗi mũi kim — một lần nhớ. Mỗi sợi chỉ — một lời chờ.</span>
+  </div>
+</footer>
+
+<script>
+  // Filter button interaction
+  document.querySelectorAll('.filter-tag').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tag').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // Emotion chip interaction
+  document.querySelectorAll('.emotion-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.emotion-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+
+  // Scroll-triggered fade in for cards
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = 1;
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.card, .sponsor-card, .stat').forEach(el => {
+    el.style.opacity = 0;
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity .5s ease, transform .5s ease';
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>

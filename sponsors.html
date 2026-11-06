@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nhà Tài Trợ — Khi Nào Cháu Về</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .sponsors-hero {
+      padding: 130px 48px 50px;
+      text-align: center;
+      background: linear-gradient(to bottom, var(--cream2), var(--cream));
+      position: relative;
+    }
+    .sponsors-hero-badge {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--brown-dark);
+      border: 2px solid var(--brown-dark);
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: .85rem;
+      margin-bottom: 16px;
+    }
+    .sponsors-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px 24px 80px;
+    }
+
+    /* Tier Sections */
+    .tier-heading {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 48px 0 24px;
+    }
+    .tier-heading h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      color: var(--brown-dark);
+      white-space: nowrap;
+    }
+    .tier-heading-line {
+      flex: 1;
+      height: 2px;
+      background: repeating-linear-gradient(to right, var(--beige), var(--beige) 8px, transparent 8px, transparent 14px);
+    }
+
+    /* Featured Diamond Sponsor */
+    .diamond-card {
+      background: white;
+      border: 2.5px solid var(--yellow);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 8px 8px 0 var(--beige);
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 36px;
+      align-items: center;
+      position: relative;
+      margin-bottom: 30px;
+      transition: transform var(--transition);
+    }
+    .diamond-card:hover {
+      transform: translateY(-4px);
+    }
+    .diamond-badge-corner {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      background: var(--yellow);
+      color: var(--brown-dark);
+      border: 1.5px solid var(--brown-dark);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: .75rem;
+      padding: 4px 14px;
+      border-radius: 50px;
+    }
+    .diamond-logo {
+      width: 170px;
+      height: 170px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #FFF8E1, #FFE082);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--yellow2);
+      font-size: 3.2rem;
+    }
+    .diamond-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--brown-dark);
+      margin-bottom: 10px;
+    }
+    .diamond-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--brown);
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+    .diamond-desc {
+      font-size: .92rem;
+      color: var(--text-light);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    /* Standard Sponsor Cards */
+    .sponsor-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .showcase-card {
+      background: white;
+      border: 2px dashed var(--brown);
+      border-radius: 16px;
+      padding: 30px 24px;
+      position: relative;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .showcase-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 6px 6px 0 var(--beige);
+    }
+    .showcase-logo-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      background: var(--cream2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+      border: 1.5px dashed var(--beige);
+    }
+    .showcase-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--brown-dark);
+      margin-bottom: 8px;
+    }
+    .showcase-story {
+      font-size: .88rem;
+      color: var(--text-light);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+    .showcase-tag {
+      display: inline-block;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: .72rem;
+      padding: 3px 12px;
+      border-radius: 50px;
+    }
+
+    /* Benefit section */
+    .benefit-box {
+      background: white;
+      border: 2px dashed var(--brown);
+      border-radius: 20px;
+      padding: 44px 36px;
+      margin: 60px 0;
+      box-shadow: 6px 6px 0 var(--beige);
+    }
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 24px;
+      margin-top: 28px;
+    }
+    .benefit-item {
+      padding: 20px;
+      border-radius: 12px;
+      background: var(--cream);
+      border: 1.5px solid var(--beige);
+    }
+    .benefit-item h4 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      color: var(--brown-dark);
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .benefit-item p {
+      font-size: .85rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    /* Partner Form */
+    .partner-form-section {
+      background: var(--cream2);
+      border: 2px dashed var(--brown);
+      border-radius: 20px;
+      padding: 44px 36px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .partner-form-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      color: var(--brown-dark);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 820px) {
+      .diamond-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .diamond-logo {
+        margin: 0 auto;
+      }
+      .sponsors-hero { padding: 100px 20px 40px; }
+      .partner-form-section { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Khi Nào Cháu Về"/></a>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Triển Lãm</a></li>
+    <li><a href="upload.html">Gửi Lời Nhắn</a></li>
+    <li><a href="about.html">Về Dự Án</a></li>
+    <li><a href="sponsors.html" class="active">Nhà Tài Trợ</a></li>
+  </ul>
+  <a href="upload.html" class="nav-cta">📸 Gửi lời nhắn</a>
+  <button class="nav-hamburger"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- HERO -->
+<div class="sponsors-hero fade-up">
+  <div class="sponsors-hero-badge">💼 Đồng Hành Cùng Dự Án</div>
+  <h1 class="section-title">🧵 Những Sợi Chỉ Đồng Hành</h1>
+  <p class="section-sub" style="margin: 0 auto;">
+    Lời tri ân sâu sắc tới các đơn vị, thương hiệu đã chung tay dệt nên hành trình yêu thương và kết nối người con xa quê về với gia đình.
+  </p>
+</div>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<!-- MAIN CONTENT -->
+<div class="sponsors-container">
+
+  <!-- DIAMOND SPONSOR SECTION -->
+  <div class="tier-heading fade-up">
+    <h2>💎 Nhà Tài Trợ Kim Cương</h2>
+    <div class="tier-heading-line"></div>
+  </div>
+
+  <div class="diamond-card fade-up">
+    <div class="diamond-badge-corner">⭐ Đối tác chiến lược</div>
+    <div class="diamond-logo">
+      <span>🌾</span>
+      <span style="font-size:.85rem; font-family:'Nunito',sans-serif; font-weight:800; color:var(--brown-dark); margin-top:6px;">BRAND HOMELAND</span>
+    </div>
+    <div class="diamond-info">
+      <h3>Tập Đoàn Thực Phẩm Quê Hương (Homeland Brand)</h3>
+      <div class="diamond-quote">"Mang hương vị bữa cơm gia đình đến mọi nẻo đường đất nước."</div>
+      <p class="diamond-desc">
+        Là đơn vị đồng hành chính của dự án "Khi Nào Cháu Về", Homeland Brand đã tài trợ 100 chuyến xe nghĩa tình đưa các bạn sinh viên và người lao động xa quê về đoàn tụ cùng gia đình trong dịp Tết, đồng thời gửi tặng 1,000 giỏ quà ấm áp tới các hộ gia đình khó khăn.
+      </p>
+      <div>
+        <a href="#partner-form" class="btn btn-primary btn-sm">Tìm hiểu câu chuyện đồng hành →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLATINUM TIER -->
+  <div class="tier-heading fade-up">
+    <h2>🥈 Nhà Tài Trợ Bạch Kim</h2>
+    <div class="tier-heading-line"></div>
+  </div>
+
+  <div class="sponsor-showcase-grid">
+    <div class="showcase-card fade-up">
+      <div class="showcase-logo-wrap">🚌</div>
+      <h3 class="showcase-title">Hãng Vận Tải An Lành</h3>
+      <p class="showcase-story">
+        Đồng hành cung cấp những chuyến xe an toàn, đưa hàng ngàn người con xa xứ trở về với vòng tay ấm áp của gia đình đúng giao thừa.
+      </p>
+      <span class="showcase-tag" style="background:var(--cream2); color:var(--brown); border:1.5px solid var(--beige);">Hậu cần vận chuyển</span>
+    </div>
+
+    <div class="showcase-card fade-up">
+      <div class="showcase-logo-wrap">📱</div>
+      <h3 class="showcase-title">Mạng Viễn Thông Kết Nối</h3>
+      <p class="showcase-story">
+        Tài trợ gói cước gọi thoại và dung lượng kết nối miễn phí để những cuộc gọi "Khi nào cháu về" không bao giờ bị gián đoạn.
+      </p>
+      <span class="showcase-tag" style="background:var(--cream2); color:var(--brown); border:1.5px solid var(--beige);">Viễn thông số</span>
+    </div>
+
+    <div class="showcase-card fade-up">
+      <div class="showcase-logo-wrap">🍵</div>
+      <h3 class="showcase-title">Trà Hương Quê Cổ Truyền</h3>
+      <p class="showcase-story">
+        Mang vị chè ấm nồng của bà mỗi sớm mai, lưu giữ nét văn hóa hiếu kính và ấm cúng trong mỗi gian nhà Việt.
+      </p>
+      <span class="showcase-tag" style="background:var(--cream2); color:var(--brown); border:1.5px solid var(--beige);">Văn hóa ẩm thực</span>
+    </div>
+  </div>
+
+  <!-- GOLD & MEDIA TIER -->
+  <div class="tier-heading fade-up">
+    <h2>🥉 Nhà Tài Trợ Vàng & Bảo Trợ Truyền Thông</h2>
+    <div class="tier-heading-line"></div>
+  </div>
+
+  <div class="sponsor-showcase-grid">
+    <div class="showcase-card fade-up">
+      <div class="showcase-logo-wrap">📷</div>
+      <h3 class="showcase-title">Studio Ký Ức Xưa</h3>
+      <p class="showcase-story">
+        Hỗ trợ phục dựng và in ấn những bức ảnh cũ của ông bà, cha mẹ được gửi về từ khắp mọi miền.
+      </p>
+      <span class="showcase-tag" style="background:#f4f4f4; color:#666;">Bảo trợ mỹ thuật</span>
+    </div>
+
+    <div class="showcase-card fade-up">
+      <div class="showcase-logo-wrap">📻</div>
+      <h3 class="showcase-title">Kênh Podcast Trạm Dừng</h3>
+      <p class="showcase-story">
+        Phát sóng tuyển chọn các câu chuyện và lời nhắn cảm xúc nhất tới hàng triệu thính giả trẻ.
+      </p>
+      <span class="showcase-tag" style="background:#f4f4f4; color:#666;">Bảo trợ truyền thông</span>
+    </div>
+
+    <div class="showcase-card fade-up">
+      <div class="showcase-logo-wrap">🎁</div>
+      <h3 class="showcase-title">Gia Vị Yêu Thương</h3>
+      <p class="showcase-story">
+        Gửi tặng các gói quà gia vị truyền thống, gợi nhắc hương vị mâm cơm chiều ấm cúng.
+      </p>
+      <span class="showcase-tag" style="background:#f4f4f4; color:#666;">Quà tặng đồng hành</span>
+    </div>
+  </div>
+
+  <!-- SPONSOR BENEFIT OVERVIEW -->
+  <div class="benefit-box fade-up">
+    <div style="text-align: center;">
+      <div class="section-label">🌟 Hợp tác cùng chúng tôi</div>
+      <h3 style="font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--brown-dark);">Vì Sao Nên Đồng Hành Cùng Dự Án?</h3>
+      <p style="font-size:.9rem; color:var(--text-light); max-width:600px; margin:8px auto 0;">
+        "Khi Nào Cháu Về" là dự án nhân văn chạm đến trái tim hàng triệu người Việt, là cầu nối giúp thương hiệu lan tỏa giá trị tích cực và tình cảm chân thật.
+      </p>
+    </div>
+
+    <div class="benefit-grid">
+      <div class="benefit-item">
+        <h4>💛 Lan Tỏa Giá Trị</h4>
+        <p>Gắn liền hình ảnh thương hiệu với những giá trị gia đình sâu sắc, chạm đến cảm xúc thật của khách hàng.</p>
+      </div>
+
+      <div class="benefit-item">
+        <h4>🌐 Hiện Diện Đa Nền Tảng</h4>
+        <p>Logo & thông điệp thương hiệu xuất hiện trang trọng trên website triển lãm, postcard, và các sự kiện thực tế.</p>
+      </div>
+
+      <div class="benefit-item">
+        <h4>🤝 Gắn Kết Cộng Đồng</h4>
+        <p>Cơ hội tham gia các hoạt động thiện nguyện, trao học bổng và chuyến xe đoàn tụ ý nghĩa trước thềm năm mới.</p>
+      </div>
+
+      <div class="benefit-item">
+        <h4>🎨 Kể Câu Chuyện Riêng</h4>
+        <p>Chúng tôi cùng thương hiệu xây dựng các "Sponsored Stories" tinh tế, giàu cảm xúc mà không cứng nhắc.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARTNER INQUIRY FORM -->
+  <div class="partner-form-section fade-up" id="partner-form">
+    <h3 class="partner-form-title">📩 Đăng Ký Trở Thành Nhà Tài Trợ</h3>
+    <p style="text-align:center; font-size:.88rem; color:var(--text-light); margin-bottom:24px;">
+      Hãy để lại thông tin, Ban Tổ Chức sẽ liên hệ và gửi hồ sơ tài trợ chi tiết trong vòng 24 giờ.
+    </p>
+
+    <div id="partner-form-content">
+      <div class="form-group">
+        <label>Tên Doanh Nghiệp / Thương Hiệu <span style="color:var(--red-thread)">*</span></label>
+        <input class="form-control" type="text" id="partner-brand" placeholder="VD: Tập đoàn ABC..."/>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="form-group">
+          <label>Người Đại Diện Liên Hệ <span style="color:var(--red-thread)">*</span></label>
+          <input class="form-control" type="text" id="partner-name" placeholder="Họ và tên"/>
+        </div>
+        <div class="form-group">
+          <label>Số Điện Thoại / Zalo <span style="color:var(--red-thread)">*</span></label>
+          <input class="form-control" type="tel" id="partner-phone" placeholder="0987..."/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email Liên Hệ <span style="color:var(--red-thread)">*</span></label>
+        <input class="form-control" type="email" id="partner-email" placeholder="contact@brand.com"/>
+      </div>
+
+      <div class="form-group">
+        <label>Hạng Mục Quan Tâm</label>
+        <select class="form-control" id="partner-tier" style="cursor:pointer;">
+          <option value="diamond">💎 Tài trợ Kim Cương (Đồng hành chiến lược)</option>
+          <option value="platinum">🥈 Tài trợ Bạch Kim</option>
+          <option value="gold">🥉 Tài trợ Vàng</option>
+          <option value="media">📢 Bảo trợ Truyền thông & Quà tặng</option>
+          <option value="other">💡 Hình thức hợp tác khác</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Lời Nhắn Hoặc Đề Xuất Hợp Tác</label>
+        <textarea class="form-control" id="partner-note" placeholder="Chia sẻ mong muốn hoặc ý tưởng đồng hành cùng dự án..."></textarea>
+      </div>
+
+      <button class="btn-submit" onclick="submitPartnerForm()">
+        🤝 GỬI ĐỀ XUẤT ĐỒNG HÀNH
+      </button>
+    </div>
+
+    <!-- Success confirmation state -->
+    <div id="partner-success" style="display:none; text-align:center; padding:30px 10px;">
+      <div style="font-size:3rem; margin-bottom:12px;">🎉</div>
+      <h3 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--brown-dark); margin-bottom:8px;">Gửi Đề Xuất Thành Công!</h3>
+      <p style="font-size:.9rem; color:var(--text-light); line-height:1.6;">
+        Chân thành cảm ơn quý đơn vị đã quan tâm tới dự án "Khi Nào Cháu Về". Ban Tổ Chức sẽ liên hệ sớm nhất để trao đổi chi tiết.
+      </p>
+      <button class="btn btn-outline btn-sm" style="margin-top:20px;" onclick="resetPartnerForm()">Gửi đề xuất khác</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <img class="footer-logo" src="logo.png" alt="Khi Nào Cháu Về"/>
+  <div class="footer-stitch">× × × 🪡 × × ×</div>
+  <div class="footer-links">
+    <a href="gallery.html">Triển Lãm</a>
+    <a href="upload.html">Gửi Lời Nhắn</a>
+    <a href="about.html">Về Dự Án</a>
+    <a href="sponsors.html">Nhà Tài Trợ</a>
+    <a href="admin.html" style="opacity:0.6;" title="Khu vực ban tổ chức">🔐 Quản trị</a>
+  </div>
+  <div class="footer-socials">
+    <a href="#">📘</a><a href="#">📸</a><a href="#">🎵</a>
+  </div>
+  <div class="footer-copy">Dệt nên bởi tình yêu — Dự án "Khi Nào Cháu Về" © 2026</div>
+  <div class="footer-tagline">🪡 Mỗi mũi kim — một lần nhớ. Mỗi sợi chỉ — một lời chờ.</div>
+</footer>
+
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  function submitPartnerForm() {
+    const brand = document.getElementById('partner-brand').value.trim();
+    const name  = document.getElementById('partner-name').value.trim();
+    const phone = document.getElementById('partner-phone').value.trim();
+    const email = document.getElementById('partner-email').value.trim();
+
+    if (!brand || !name || !phone || !email) {
+      showToast('⚠️ Vui lòng điền đầy đủ các thông tin có dấu *');
+      return;
+    }
+
+    document.getElementById('partner-form-content').style.display = 'none';
+    document.getElementById('partner-success').style.display = 'block';
+    showToast('✅ Đã ghi nhận đề xuất hợp tác!');
+  }
+
+  function resetPartnerForm() {
+    document.getElementById('partner-form-content').style.display = 'block';
+    document.getElementById('partner-success').style.display = 'none';
+    document.getElementById('partner-brand').value = '';
+    document.getElementById('partner-name').value = '';
+    document.getElementById('partner-phone').value = '';
+    document.getElementById('partner-email').value = '';
+    document.getElementById('partner-note').value = '';
+  }
+</script>
+</body>
+</html>

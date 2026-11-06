@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quản Trị Triển Lãm — Khi Nào Cháu Về</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    body { background: #F9F6F0; }
+
+    /* Admin Navigation */
+    .admin-nav {
+      background: var(--brown-dark);
+      color: var(--cream);
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--yellow);
+    }
+    .admin-nav-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--cream);
+    }
+    .admin-nav-title img { height: 36px; filter: brightness(0) invert(1); }
+    .admin-nav-actions { display: flex; gap: 14px; align-items: center; }
+
+    /* Login Screen */
+    .admin-login-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(58, 42, 26, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .login-box {
+      background: white;
+      border: 2px dashed var(--brown);
+      border-radius: 20px;
+      padding: 40px 32px;
+      max-width: 400px; width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    .login-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--brown-dark);
+      margin-bottom: 8px;
+    }
+
+    /* Admin Container */
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* Stats Overview */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+    .admin-stat-card {
+      background: white;
+      border: 2px dashed var(--beige);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 4px 4px 0 var(--beige);
+    }
+    .admin-stat-card.alert {
+      border-color: var(--red-thread);
+      background: rgba(192, 57, 43, 0.03);
+    }
+    .admin-stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      margin-bottom: 4px;
+    }
+    .admin-stat-card.alert .admin-stat-number { color: var(--red-thread); }
+    .admin-stat-label {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: .85rem;
+      color: var(--text-light);
+    }
+
+    /* Tab Filter Bar */
+    .admin-tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      border-bottom: 2px dashed var(--beige);
+      padding-bottom: 16px;
+    }
+    .admin-tab {
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: .85rem;
+      cursor: pointer;
+      border: 2px solid var(--beige);
+      background: white;
+      color: var(--text-light);
+      transition: all var(--transition);
+    }
+    .admin-tab.active, .admin-tab:hover {
+      background: var(--brown-dark);
+      border-color: var(--brown-dark);
+      color: var(--cream);
+    }
+
+    /* Posts List */
+    .admin-post-card {
+      background: white;
+      border: 2px dashed var(--brown);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      gap: 24px;
+      align-items: center;
+      box-shadow: 4px 4px 0 var(--beige);
+      transition: transform var(--transition);
+    }
+    .admin-post-card:hover { transform: translateY(-2px); }
+    .admin-thumb {
+      width: 100px;
+      height: 100px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--cream2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      border: 1.5px solid var(--beige);
+    }
+    .admin-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+    .admin-post-content { flex: 1; }
+    .admin-post-message {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .admin-post-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: .82rem;
+      color: var(--text-light);
+    }
+    .admin-post-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 150px;
+    }
+    .btn-action {
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: .78rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all var(--transition);
+      border: 1.5px solid transparent;
+    }
+    .btn-approve {
+      background: #D4E8D0;
+      color: #2E5A27;
+      border-color: #A3D49B;
+    }
+    .btn-approve:hover { background: #bfe0ba; }
+    .btn-reject {
+      background: #FFE0DB;
+      color: #A83220;
+      border-color: #F8B4A8;
+    }
+    .btn-reject:hover { background: #ffd0c8; }
+    .btn-sponsor {
+      background: #FFF3CD;
+      color: #7A5800;
+      border-color: #FFE082;
+    }
+    .btn-sponsor:hover { background: #ffe99d; }
+    .btn-sponsor.active {
+      background: var(--yellow);
+      color: var(--brown-dark);
+      font-weight: 800;
+      border-color: var(--brown-dark);
+    }
+    .btn-delete {
+      background: #f1f1f1;
+      color: #666;
+      border-color: #ddd;
+    }
+    .btn-delete:hover { background: #e0e0e0; color: #333; }
+
+    .status-badge {
+      display: inline-block;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: .72rem;
+      padding: 3px 10px;
+      border-radius: 50px;
+    }
+    .status-pending { background: #FFF3CD; color: #856404; }
+    .status-approved { background: #D4E8D0; color: #155724; }
+    .status-rejected { background: #F8D7DA; color: #721C24; }
+
+    @media (max-width: 768px) {
+      .admin-post-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .admin-thumb { margin: 0 auto; }
+      .admin-post-actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN OVERLAY -->
+<div class="admin-login-overlay" id="login-overlay">
+  <div class="login-box">
+    <div style="font-size:2.5rem; margin-bottom:8px;">🔐</div>
+    <h2>Ban Tổ Chức</h2>
+    <p style="font-size:.85rem; color:var(--text-light); margin-bottom:20px;">
+      Vui lòng nhập mã PIN quản trị để duyệt bài triển lãm.<br/>
+      <small style="color:var(--brown)">(Mã mặc định: <strong>1234</strong>)</small>
+    </p>
+
+    <div class="form-group">
+      <input class="form-control" type="password" id="admin-pin" placeholder="Nhập mã PIN" maxlength="10" style="text-align:center; font-size:1.2rem; letter-spacing:4px;"/>
+    </div>
+
+    <button class="btn btn-dark" style="width:100%; margin-bottom:10px;" onclick="checkPin()">
+      Đăng Nhập
+    </button>
+    <button class="btn btn-outline btn-sm" style="width:100%;" onclick="quickLogin()">
+      Truy cập nhanh (Demo)
+    </button>
+  </div>
+</div>
+
+<!-- ADMIN NAV -->
+<header class="admin-nav">
+  <div class="admin-nav-title">
+    <span>🪡</span>
+    <strong>Quản Trị Triển Lãm — "Khi Nào Cháu Về"</strong>
+  </div>
+  <div class="admin-nav-actions">
+    <a href="gallery.html" target="_blank" class="btn btn-primary btn-sm">🖼️ Xem triển lãm thực tế</a>
+    <a href="index.html" class="btn btn-outline btn-sm" style="color:var(--cream); border-color:rgba(255,255,255,.4);">🏠 Trang chủ</a>
+  </div>
+</header>
+
+<main class="admin-container">
+
+  <!-- STATS -->
+  <div class="admin-stats-grid">
+    <div class="admin-stat-card alert">
+      <div class="admin-stat-number" id="count-pending">0</div>
+      <div class="admin-stat-label">⏳ Đang chờ duyệt</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-number" id="count-approved">0</div>
+      <div class="admin-stat-label">✅ Đã lên triển lãm</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-number" id="count-rejected">0</div>
+      <div class="admin-stat-label">❌ Đã từ chối</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-number" id="count-total">0</div>
+      <div class="admin-stat-label">🪡 Tổng lượt gửi</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="admin-tabs" id="admin-tabs">
+    <button class="admin-tab active" data-tab="pending">⏳ Chờ duyệt (<span id="tab-count-pending">0</span>)</button>
+    <button class="admin-tab" data-tab="approved">✅ Đã duyệt (<span id="tab-count-approved">0</span>)</button>
+    <button class="admin-tab" data-tab="rejected">❌ Từ chối (<span id="tab-count-rejected">0</span>)</button>
+    <button class="admin-tab" data-tab="all">📋 Tất cả (<span id="tab-count-all">0</span>)</button>
+  </div>
+
+  <!-- POSTS LIST -->
+  <div id="posts-container"></div>
+
+  <!-- EMPTY STATE -->
+  <div id="admin-empty" style="display:none; text-align:center; padding:60px 20px; color:var(--text-light);">
+    <div style="font-size:3rem; margin-bottom:12px;">🎉</div>
+    <p style="font-family:'Playfair Display',serif; font-size:1.1rem;">Không có bài viết nào trong danh mục này!</p>
+  </div>
+
+  <!-- DEMO DATA RESET -->
+  <div style="text-align:center; margin-top:50px; padding-top:30px; border-top:1px dashed var(--beige);">
+    <button class="btn btn-outline btn-sm" onclick="resetDemoPosts()" style="font-size:.78rem;">
+      🔄 Khôi phục dữ liệu mẫu ban đầu
+    </button>
+  </div>
+
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  seedDemoData();
+
+  let activeTab = 'pending';
+
+  function checkPin() {
+    const pin = document.getElementById('admin-pin').value;
+    if (pin === '1234') {
+      document.getElementById('login-overlay').style.display = 'none';
+      renderAdmin();
+    } else {
+      showToast('❌ Sai mã PIN. Thử lại hoặc chọn Truy cập nhanh!');
+    }
+  }
+
+  function quickLogin() {
+    document.getElementById('login-overlay').style.display = 'none';
+    renderAdmin();
+  }
+
+  function updateCounts() {
+    const all = getAllPosts();
+    const pending = all.filter(p => p.status === 'pending');
+    const approved = all.filter(p => p.status === 'approved');
+    const rejected = all.filter(p => p.status === 'rejected');
+
+    document.getElementById('count-pending').textContent = pending.length;
+    document.getElementById('count-approved').textContent = approved.length;
+    document.getElementById('count-rejected').textContent = rejected.length;
+    document.getElementById('count-total').textContent = all.length;
+
+    document.getElementById('tab-count-pending').textContent = pending.length;
+    document.getElementById('tab-count-approved').textContent = approved.length;
+    document.getElementById('tab-count-rejected').textContent = rejected.length;
+    document.getElementById('tab-count-all').textContent = all.length;
+  }
+
+  function renderAdmin() {
+    updateCounts();
+    const container = document.getElementById('posts-container');
+    const empty = document.getElementById('admin-empty');
+
+    const all = getAllPosts();
+    let filtered = all;
+    if (activeTab === 'pending')  filtered = all.filter(p => p.status === 'pending');
+    if (activeTab === 'approved') filtered = all.filter(p => p.status === 'approved');
+    if (activeTab === 'rejected') filtered = all.filter(p => p.status === 'rejected');
+
+    if (filtered.length === 0) {
+      container.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+
+    container.innerHTML = filtered.map(post => {
+      const emotion = EMOTION_MAP[post.emotion] || { label: 'Khác', cls: '' };
+
+      const thumbHTML = post.imgBase64
+        ? `<img src="${post.imgBase64}" alt="Ảnh"/>`
+        : `<div style="background:${post.imgColor||'#F5EBD8'};width:100%;height:100%;display:flex;align-items:center;justify-content:center;">${post.imgIcon||'🖼️'}</div>`;
+
+      let statusBadge = '';
+      if (post.status === 'approved') statusBadge = '<span class="status-badge status-approved">✅ Đã duyệt</span>';
+      else if (post.status === 'rejected') statusBadge = '<span class="status-badge status-rejected">❌ Từ chối</span>';
+      else statusBadge = '<span class="status-badge status-pending">⏳ Chờ duyệt</span>';
+
+      const sponsorClass = post.sponsor ? 'btn-sponsor active' : 'btn-sponsor';
+      const sponsorText  = post.sponsor ? '★ Đang là Tài Trợ' : '☆ Đánh dấu Tài Trợ';
+
+      return `
+        <div class="admin-post-card">
+          <div class="admin-thumb">
+            ${thumbHTML}
+          </div>
+          <div class="admin-post-content">
+            <p class="admin-post-message">"${post.message}"</p>
+            <div class="admin-post-meta">
+              <strong>👤 ${post.name || 'Ẩn danh'}</strong>
+              ${post.location ? `<span>· 📍 ${post.location}</span>` : ''}
+              <span>· 💛 ${emotion.label}</span>
+              <span>· 📅 ${formatDate(post.date)}</span>
+              <span>${statusBadge}</span>
+              ${post.sponsor ? '<span style="color:#B8860B; font-weight:800;">[★ Sponsored]</span>' : ''}
+            </div>
+          </div>
+          <div class="admin-post-actions">
+            ${post.status !== 'approved' ? `<button class="btn-action btn-approve" onclick="approvePost(${post.id})">✅ Duyệt bài</button>` : ''}
+            ${post.status !== 'rejected' ? `<button class="btn-action btn-reject" onclick="rejectPost(${post.id})">❌ Từ chối</button>` : ''}
+            <button class="btn-action ${sponsorClass}" onclick="toggleSponsor(${post.id})">${sponsorText}</button>
+            <button class="btn-action btn-delete" onclick="removePost(${post.id})">🗑️ Xóa vĩnh viễn</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function approvePost(id) {
+    updatePostStatus(id, 'approved');
+    showToast('✅ Đã duyệt lời nhắn lên triển lãm!');
+    renderAdmin();
+  }
+
+  function rejectPost(id) {
+    updatePostStatus(id, 'rejected');
+    showToast('❌ Đã từ chối hiển thị lời nhắn!');
+    renderAdmin();
+  }
+
+  function toggleSponsor(id) {
+    const posts = getAllPosts();
+    const post = posts.find(p => p.id === id);
+    if (post) {
+      post.sponsor = !post.sponsor;
+      localStorage.setItem('kncv_posts', JSON.stringify(posts));
+      showToast(post.sponsor ? '★ Đã gắn nhãn đồng hành tài trợ!' : 'Đã bỏ nhãn tài trợ');
+      renderAdmin();
+    }
+  }
+
+  function removePost(id) {
+    if (confirm('Bạn có chắc muốn xóa lời nhắn này?')) {
+      deletePost(id);
+      showToast('🗑️ Đã xóa bài viết.');
+      renderAdmin();
+    }
+  }
+
+  function resetDemoPosts() {
+    if (confirm('Khôi phục lại dữ liệu mẫu gốc? Dữ liệu người dùng gửi gần đây có thể mất.')) {
+      localStorage.removeItem('kncv_posts');
+      localStorage.removeItem('kncv_next_id');
+      seedDemoData();
+      renderAdmin();
+      showToast('🔄 Đã khôi phục dữ liệu mẫu!');
+    }
+  }
+
+  // Tab switching
+  document.getElementById('admin-tabs').addEventListener('click', e => {
+    const tab = e.target.closest('.admin-tab');
+    if (!tab) return;
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    activeTab = tab.dataset.tab;
+    renderAdmin();
+  });
+</script>
+</body>
+</html>

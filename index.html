@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Khi Nào Cháu Về</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 100px 24px 60px; position: relative; overflow: hidden;
+      text-align: center;
+    }
+    .hero-glow {
+      position: absolute; width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,215,0,.13) 0%, transparent 68%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none;
+    }
+    .needle-left {
+      position: absolute; left: 6%; top: 50%; width: 90px; opacity: .8;
+    }
+    .needle-right {
+      position: absolute; right: 6%; top: 50%; width: 90px; opacity: .65;
+      animation-delay: 1.5s !important;
+    }
+    .hero-logo {
+      width: min(780px, 92vw);
+      filter: drop-shadow(0 12px 60px rgba(255,215,0,.55));
+      animation: fade-in-up .9s cubic-bezier(.22,1,.36,1) both;
+    }
+    .thread-line {
+      width: 2px; height: 48px; margin: 0 auto 20px;
+      background: linear-gradient(to bottom, var(--red-thread), transparent);
+      border-radius: 2px; animation: thread-grow 1.5s ease-out .6s both;
+    }
+    @keyframes thread-grow { from{height:0;opacity:0} to{height:48px;opacity:1} }
+
+    .hero-slogan {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1rem, 2.3vw, 1.35rem); color: var(--text-light);
+      margin: 18px 0 32px; max-width: 500px; line-height: 1.75;
+      animation: fade-in-up .8s ease .3s both;
+    }
+    .hero-slogan strong { color: var(--red-thread); font-style: normal; }
+
+    .hero-buttons {
+      display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 52px;
+      animation: fade-in-up .8s ease .5s both;
+    }
+
+    .hero-stats {
+      display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;
+      animation: fade-in-up .8s ease .7s both;
+    }
+    .stat {
+      text-align: center; padding: 16px 24px;
+      border: 2px dashed var(--beige); border-radius: 16px;
+      background: rgba(255,255,255,.65); backdrop-filter: blur(4px);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif; font-size: 2.1rem;
+      font-weight: 700; color: var(--brown); display: block;
+    }
+    .stat-label { font-size: .78rem; color: var(--text-light); margin-top: 2px; }
+
+    .scroll-hint {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      font-size: .75rem; color: var(--text-light); letter-spacing: 2px;
+      text-transform: uppercase; animation: bounce 1s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100%{transform:translateX(-50%) translateY(0)}
+      50%     {transform:translateX(-50%) translateY(7px)}
+    }
+
+    /* ── PREVIEW GALLERY (homepage) ── */
+    .preview-section { background: var(--cream); }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px; max-width: 1200px; margin: 0 auto 40px;
+    }
+
+    /* ── ABOUT TEASER ── */
+    .about-teaser {
+      background: var(--cream2); text-align: center; padding: 80px 24px;
+    }
+    .about-thread { width: 2px; height: 72px; background: var(--red-thread); margin: 0 auto 32px; border-radius: 2px; opacity: .5; }
+    .about-quote {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(1.05rem, 2vw, 1.3rem); color: var(--text);
+      max-width: 640px; margin: 0 auto 28px; line-height: 1.85;
+    }
+
+    /* ── SPONSOR STRIP (homepage) ── */
+    .sponsor-strip { background: var(--brown-dark); padding: 40px 48px; text-align: center; }
+    .sponsor-strip-title {
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .78rem;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--yellow);
+      margin-bottom: 24px;
+    }
+    .sponsor-logos { display: flex; gap: 32px; justify-content: center; align-items: center; flex-wrap: wrap; }
+    .sponsor-logo-pill {
+      background: rgba(255,255,255,.08); border: 1.5px solid rgba(255,215,0,.25);
+      border-radius: 12px; padding: 12px 28px; color: var(--beige);
+      font-family: 'Nunito', sans-serif; font-weight: 800; font-size: .95rem;
+      transition: all var(--transition); cursor: pointer;
+    }
+    .sponsor-logo-pill:hover { background: rgba(255,215,0,.15); border-color: var(--yellow); color: var(--yellow); }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo"><img src="logo.png" alt="Khi Nào Cháu Về"/></a>
+  <ul class="nav-links">
+    <li><a href="gallery.html">Triển Lãm</a></li>
+    <li><a href="upload.html">Gửi Lời Nhắn</a></li>
+    <li><a href="about.html">Về Dự Án</a></li>
+    <li><a href="sponsors.html">Nhà Tài Trợ</a></li>
+  </ul>
+  <a href="upload.html" class="nav-cta">📸 Gửi lời nhắn</a>
+  <button class="nav-hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <!-- Needle left -->
+  <svg class="needle-left needle-sway" viewBox="0 0 60 220" fill="none">
+    <path d="M30 20 Q55 80 20 140 Q-5 190 30 220" stroke="#C0392B" stroke-width="1.5" fill="none" stroke-dasharray="5 3" opacity=".55"/>
+    <rect x="25" y="10" width="10" height="140" rx="5" fill="#D4A853"/>
+    <ellipse cx="30" cy="22" rx="3.5" ry="6" fill="#FFF8F0" stroke="#8B5E3C" stroke-width="1"/>
+    <polygon points="25,150 35,150 30,176" fill="#D4A853"/>
+    <path d="M30 16 Q38 22 30 28" stroke="#C0392B" stroke-width="1.5" fill="none"/>
+  </svg>
+
+  <!-- Needle right -->
+  <svg class="needle-right needle-sway" viewBox="0 0 60 220" fill="none" style="animation-delay:1.8s">
+    <path d="M30 20 Q5 80 40 140 Q65 190 30 220" stroke="#FFD700" stroke-width="1.5" fill="none" stroke-dasharray="5 3" opacity=".45"/>
+    <rect x="25" y="10" width="10" height="140" rx="5" fill="#C8A040"/>
+    <ellipse cx="30" cy="22" rx="3.5" ry="6" fill="#FFF8F0" stroke="#8B5E3C" stroke-width="1"/>
+    <polygon points="25,150 35,150 30,176" fill="#C8A040"/>
+    <path d="M30 16 Q38 22 30 28" stroke="#FFD700" stroke-width="1.5" fill="none"/>
+  </svg>
+
+  <img class="hero-logo" src="logo.png" alt="Khi Nào Cháu Về"/>
+  <div class="thread-line"></div>
+
+  <p class="hero-slogan">
+    Mỗi mũi kim — một lần nhớ.<br/>
+    <strong>Mỗi sợi chỉ — một lời chờ.</strong>
+  </p>
+
+  <div class="hero-buttons">
+    <a href="gallery.html" class="btn btn-primary">🖼️ Xem triển lãm</a>
+    <a href="upload.html"  class="btn btn-dark">🧵 Gửi lời nhắn</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num" id="stat-posts">—</span>
+      <span class="stat-label">🪡 lời nhắn được khâu lại</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num" id="stat-places">—</span>
+      <span class="stat-label">📍 tỉnh thành</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">12</span>
+      <span class="stat-label">💼 nhà tài trợ</span>
+    </div>
+  </div>
+
+  <div class="scroll-hint">▼ &nbsp; cuộn xuống</div>
+</section>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<!-- PREVIEW GALLERY -->
+<section class="preview-section">
+  <div class="section-header-center fade-up">
+    <div class="section-label">🖼️ Mới nhất</div>
+    <h2 class="section-title">Những Lời Nhắn Vừa Được Khâu</h2>
+    <p class="section-sub">Cùng lắng nghe những câu chuyện từ khắp mọi miền.</p>
+  </div>
+  <div class="preview-grid" id="preview-grid"></div>
+  <div style="text-align:center;">
+    <a href="gallery.html" class="btn btn-outline">Xem tất cả triển lãm →</a>
+  </div>
+</section>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<!-- ABOUT TEASER -->
+<section class="about-teaser">
+  <div class="about-thread"></div>
+  <div class="fade-up">
+    <div class="section-label" style="text-align:center;">📖 Về dự án</div>
+    <h2 class="section-title" style="text-align:center;margin-bottom:20px;">Tại Sao Lại Là<br/>"Khi Nào Cháu Về"?</h2>
+    <p class="about-quote">
+      "Có những khoảng cách không phải lúc nào cũng lấp đầy được bằng cuộc gọi hay tin nhắn.
+       Dự án ra đời để trao cho mỗi người một mảnh vải — nơi họ có thể thêu lên đó lời nhớ,
+       lời thương, và lời hứa sẽ trở về."
+    </p>
+    <a href="about.html" class="btn btn-outline">Đọc câu chuyện →</a>
+  </div>
+</section>
+
+<div class="stitch-divider">× × × × × × × × × × × × × × ×</div>
+
+<!-- SPONSOR STRIP -->
+<div class="sponsor-strip">
+  <div class="sponsor-strip-title">🧵 Những sợi chỉ đồng hành</div>
+  <div class="sponsor-logos">
+    <div class="sponsor-logo-pill">Brand A</div>
+    <div class="sponsor-logo-pill">Brand B</div>
+    <div class="sponsor-logo-pill">Brand C</div>
+    <div class="sponsor-logo-pill">Brand D</div>
+  </div>
+  <div style="margin-top:20px;">
+    <a href="sponsors.html" style="color:rgba(255,215,0,.55);font-size:.82rem;font-family:'Nunito',sans-serif;">Xem tất cả nhà tài trợ →</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <img class="footer-logo" src="logo.png" alt="Khi Nào Cháu Về"/>
+  <div class="footer-stitch">× × × 🪡 × × ×</div>
+  <div class="footer-links">
+    <a href="gallery.html">Triển Lãm</a>
+    <a href="upload.html">Gửi Lời Nhắn</a>
+    <a href="about.html">Về Dự Án</a>
+    <a href="sponsors.html">Nhà Tài Trợ</a>
+    <a href="admin.html" style="opacity:0.6;" title="Khu vực ban tổ chức">🔐 Quản trị</a>
+  </div>
+  <div class="footer-socials">
+    <a href="#" title="Facebook">📘</a>
+    <a href="#" title="Instagram">📸</a>
+    <a href="#" title="TikTok">🎵</a>
+  </div>
+  <div class="footer-copy">Dệt nên bởi tình yêu — Dự án "Khi Nào Cháu Về" © 2026</div>
+  <div class="footer-tagline">🪡 Mỗi mũi kim — một lần nhớ. Mỗi sợi chỉ — một lời chờ.</div>
+</footer>
+
+</div><!-- /page-wrap -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  seedDemoData();
+
+  // Load stats
+  const posts = getApprovedPosts();
+  document.getElementById('stat-posts').textContent = posts.length.toLocaleString();
+  const places = [...new Set(posts.map(p => p.location).filter(Boolean))].length;
+  document.getElementById('stat-places').textContent = places;
+
+  // Load preview (latest 8)
+  const grid = document.getElementById('preview-grid');
+  posts.slice(0, 8).forEach(p => {
+    grid.innerHTML += buildCardHTML(p);
+  });
+
+  // Open modal on card click
+  document.addEventListener('click', e => {
+    const card = e.target.closest('.card[data-id]');
+    if (!card) return;
+    const id   = parseInt(card.dataset.id);
+    const post = getApprovedPosts().find(p => p.id === id);
+    if (post) openModal(post);
+  });
+
+  // Re-run fade-up for dynamically added cards
+  setTimeout(() => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  }, 100);
+</script>
+</body>
+</html>
