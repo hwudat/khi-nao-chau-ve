@@ -14,7 +14,6 @@ const firebaseConfig = {
 
 let fbApp = null;
 let fbDb  = null;
-let fbStorage = null;
 
 function isFirebaseConfigured() {
   return firebaseConfig &&
@@ -30,8 +29,7 @@ if (typeof firebase !== 'undefined' && isFirebaseConfigured()) {
       fbApp = firebase.app();
     }
     fbDb = firebase.firestore();
-    fbStorage = firebase.storage();
-    console.log('✅ Firebase Cloud đã được kết nối thành công tới khi-nao-chau-ve!');
+    console.log('✅ Firebase Firestore Cloud đã được kết nối thành công tới khi-nao-chau-ve!');
   } catch (err) {
     console.error('❌ Lỗi khởi tạo Firebase:', err);
   }
