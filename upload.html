@@ -173,6 +173,10 @@
 
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 <script>
@@ -236,26 +240,31 @@
     if (!msg) { showToast('⚠️ Vui lòng viết lời nhắn của bạn!'); return; }
 
     const btn = document.getElementById('submit-btn');
-    btn.textContent = '⏳ Đang gửi...'; btn.disabled = true;
+    btn.textContent = '⏳ Đang khâu lời nhớ...'; btn.disabled = true;
 
+    const fileToUpload = selectedFiles.length > 0 ? selectedFiles[0] : null;
     let imgBase64 = '';
-    if (selectedFiles.length > 0) {
-      try { imgBase64 = await fileToBase64(selectedFiles[0]); } catch(e) {}
+    if (fileToUpload && (!isFirebaseConfigured || !isFirebaseConfigured())) {
+      try { imgBase64 = await fileToBase64(fileToUpload); } catch(e) {}
     }
 
     const post = { name, location: loc, message: msg, emotion: selectedEmotion, imgBase64 };
-    if (!imgBase64) {
+    if (!fileToUpload) {
       const icons  = ['🌾','🌿','🌸','🌊','🏡','☀️','💜','⭐'];
       const colors = ['#F5EBD8','#D4E8D0','#FFD6CC','#C8E6E0','#E8D5B7','#FFF3CD','#EDD5F7','#F7EDD5'];
       const r = Math.floor(Math.random() * icons.length);
       post.imgIcon = icons[r]; post.imgColor = colors[r];
     }
 
-    setTimeout(() => {
-      savePost(post);
+    try {
+      await savePost(post, fileToUpload);
       document.getElementById('upload-form-box').style.display = 'none';
       document.getElementById('success-box').style.display = 'block';
-    }, 800);
+    } catch (err) {
+      console.error(err);
+      showToast('❌ Có lỗi khi gửi. Vui lòng thử lại!');
+      btn.textContent = '🧵 KHÂU LẠI LỜI NHỚ'; btn.disabled = false;
+    }
   }
 
   function resetForm() {

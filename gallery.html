@@ -106,13 +106,20 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 <script>
-  seedDemoData();
-
   let currentFilter = 'all';
-  let allPosts = getApprovedPosts();
+  let allPosts = [];
+
+  async function initGallery() {
+    allPosts = await getApprovedPosts();
+    renderGallery(currentFilter);
+  }
 
   function renderGallery(filter) {
     const grid  = document.getElementById('masonry-grid');
@@ -153,12 +160,12 @@
   document.addEventListener('click', e => {
     const card = e.target.closest('.card[data-id]');
     if (!card) return;
-    const id   = parseInt(card.dataset.id);
-    const post = allPosts.find(p => p.id === id);
+    const id   = card.dataset.id;
+    const post = allPosts.find(p => String(p.id) === String(id));
     if (post) openModal(post);
   });
 
-  renderGallery('all');
+  initGallery();
 </script>
 </body>
 </html>

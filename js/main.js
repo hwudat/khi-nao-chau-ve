@@ -59,8 +59,9 @@ function buildCardHTML(post, showStatus = false) {
   const emotion = EMOTION_MAP[post.emotion] || { label: '', cls: '' };
   const imgH    = post.tall ? '280' : '200';
 
-  const imgHTML = post.imgBase64
-    ? `<img src="${post.imgBase64}" alt="Ảnh" style="width:100%;height:${imgH}px;object-fit:cover;" />`
+  const imgSrc  = post.imgUrl || post.imgBase64;
+  const imgHTML = imgSrc
+    ? `<img src="${imgSrc}" alt="Ảnh" style="width:100%;height:${imgH}px;object-fit:cover;" />`
     : `<div class="card-placeholder" style="height:${imgH}px;background:${post.imgColor||'#F5EBD8'};">${post.imgIcon||'🖼️'}</div>`;
 
   const sponsorBadge = post.sponsor
@@ -96,8 +97,9 @@ function openModal(post) {
   if (!overlay) return;
   const emotion = EMOTION_MAP[post.emotion] || { label: '', cls: '' };
 
-  const imgHTML = post.imgBase64
-    ? `<img class="modal-img" src="${post.imgBase64}" alt="Ảnh" />`
+  const imgSrc  = post.imgUrl || post.imgBase64;
+  const imgHTML = imgSrc
+    ? `<img class="modal-img" src="${imgSrc}" alt="Ảnh" />`
     : `<div class="modal-img card-placeholder" style="height:260px;background:${post.imgColor||'#F5EBD8'};">${post.imgIcon||'🖼️'}</div>`;
 
   document.getElementById('modal-content').innerHTML = `

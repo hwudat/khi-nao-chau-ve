@@ -60,6 +60,29 @@
       padding: 40px 24px 80px;
     }
 
+    /* Status Banner */
+    .cloud-status-banner {
+      padding: 14px 20px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'Nunito', sans-serif;
+      font-size: .9rem;
+      border: 1.5px solid transparent;
+    }
+    .cloud-status-banner.online {
+      background: #E8F5E9;
+      color: #1B5E20;
+      border-color: #A5D6A7;
+    }
+    .cloud-status-banner.offline {
+      background: #FFF8E1;
+      color: #8D6E63;
+      border-color: #FFE082;
+    }
+
     /* Stats Overview */
     .admin-stats-grid {
       display: grid;
@@ -230,6 +253,23 @@
     .status-approved { background: #D4E8D0; color: #155724; }
     .status-rejected { background: #F8D7DA; color: #721C24; }
 
+    /* Firebase Settings Box */
+    .firebase-settings-box {
+      background: white;
+      border: 2px dashed var(--brown);
+      border-radius: 18px;
+      padding: 32px;
+      margin-bottom: 30px;
+      display: none;
+    }
+    .firebase-settings-box.active { display: block; }
+    .firebase-settings-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--brown-dark);
+      margin-bottom: 12px;
+    }
+
     @media (max-width: 768px) {
       .admin-post-card {
         grid-template-columns: 1fr;
@@ -279,6 +319,16 @@
 
 <main class="admin-container">
 
+  <!-- CLOUD STATUS BANNER -->
+  <div class="cloud-status-banner offline" id="cloud-banner">
+    <div id="cloud-banner-text">
+      <strong>🟡 Chế độ lưu trữ: Cục bộ</strong> — Chưa kích hoạt Firebase. Dữ liệu đang được lưu tạm trên thiết bị này.
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="showFirebaseTab()" style="font-size:.78rem; padding:4px 14px;">
+      ⚙️ Cài đặt Firebase
+    </button>
+  </div>
+
   <!-- STATS -->
   <div class="admin-stats-grid">
     <div class="admin-stat-card alert">
@@ -305,6 +355,57 @@
     <button class="admin-tab" data-tab="approved">✅ Đã duyệt (<span id="tab-count-approved">0</span>)</button>
     <button class="admin-tab" data-tab="rejected">❌ Từ chối (<span id="tab-count-rejected">0</span>)</button>
     <button class="admin-tab" data-tab="all">📋 Tất cả (<span id="tab-count-all">0</span>)</button>
+    <button class="admin-tab" data-tab="firebase" style="margin-left:auto; border-color:var(--yellow); color:var(--brown-dark);">⚙️ Kết nối Firebase</button>
+  </div>
+
+  <!-- FIREBASE SETTINGS PANEL -->
+  <div class="firebase-settings-box" id="firebase-panel">
+    <h3>🔥 Cấu Hình Firebase Cloud (Lưu ảnh & Lời nhắn toàn cầu)</h3>
+    <p style="font-size:.88rem; color:var(--text-light); margin-bottom:20px; line-height:1.6;">
+      Dán thông tin cấu hình từ <strong>Firebase Console ➔ Project Settings ➔ Your apps</strong> vào các ô bên dưới. Sau khi lưu, toàn bộ người truy cập web từ khắp mọi nơi sẽ cùng chia sẻ chung một kho lưu trữ trực tuyến!
+    </p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="form-group">
+        <label>API Key</label>
+        <input class="form-control" type="text" id="fb-apiKey" placeholder="AIzaSy..."/>
+      </div>
+      <div class="form-group">
+        <label>Project ID</label>
+        <input class="form-control" type="text" id="fb-projectId" placeholder="khi-nao-chau-ve-xxxx"/>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="form-group">
+        <label>Auth Domain</label>
+        <input class="form-control" type="text" id="fb-authDomain" placeholder="khi-nao-chau-ve.firebaseapp.com"/>
+      </div>
+      <div class="form-group">
+        <label>Storage Bucket</label>
+        <input class="form-control" type="text" id="fb-storageBucket" placeholder="khi-nao-chau-ve.appspot.com"/>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="form-group">
+        <label>Messaging Sender ID</label>
+        <input class="form-control" type="text" id="fb-senderId" placeholder="123456789..."/>
+      </div>
+      <div class="form-group">
+        <label>App ID</label>
+        <input class="form-control" type="text" id="fb-appId" placeholder="1:123456789:web:..."/>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; margin-top:10px;">
+      <button class="btn btn-dark btn-sm" onclick="saveFirebaseConfig()">
+        💾 Lưu & Kích Hoạt Firebase
+      </button>
+      <button class="btn btn-outline btn-sm" onclick="clearFirebaseConfig()">
+        Xóa Cấu Hình Firebase
+      </button>
+    </div>
   </div>
 
   <!-- POSTS LIST -->
@@ -313,30 +414,26 @@
   <!-- EMPTY STATE -->
   <div id="admin-empty" style="display:none; text-align:center; padding:60px 20px; color:var(--text-light);">
     <div style="font-size:3rem; margin-bottom:12px;">🎉</div>
-    <p style="font-family:'Playfair Display',serif; font-size:1.1rem;">Không có bài viết nào trong danh mục này!</p>
-  </div>
-
-  <!-- DEMO DATA RESET -->
-  <div style="text-align:center; margin-top:50px; padding-top:30px; border-top:1px dashed var(--beige);">
-    <button class="btn btn-outline btn-sm" onclick="resetDemoPosts()" style="font-size:.78rem;">
-      🔄 Khôi phục dữ liệu mẫu ban đầu
-    </button>
+    <p style="font-family:'Playfair Display',serif; font-size:1.1rem;">Chưa có bài viết nào trong danh mục này!</p>
   </div>
 
 </main>
 
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 <script>
-  seedDemoData();
-
   let activeTab = 'pending';
+  let cachedPosts = [];
 
   function checkPin() {
     const pin = document.getElementById('admin-pin').value;
     if (pin === '1234') {
       document.getElementById('login-overlay').style.display = 'none';
-      renderAdmin();
+      initAdmin();
     } else {
       showToast('❌ Sai mã PIN. Thử lại hoặc chọn Truy cập nhanh!');
     }
@@ -344,36 +441,61 @@
 
   function quickLogin() {
     document.getElementById('login-overlay').style.display = 'none';
-    renderAdmin();
+    initAdmin();
   }
 
-  function updateCounts() {
-    const all = getAllPosts();
-    const pending = all.filter(p => p.status === 'pending');
-    const approved = all.filter(p => p.status === 'approved');
-    const rejected = all.filter(p => p.status === 'rejected');
+  function updateCloudStatus() {
+    const banner = document.getElementById('cloud-banner');
+    const text   = document.getElementById('cloud-banner-text');
+    if (typeof isFirebaseConfigured === 'function' && isFirebaseConfigured()) {
+      banner.className = 'cloud-status-banner online';
+      text.innerHTML = '<strong>🟢 Firebase Cloud Đang Hoạt Động!</strong> Mọi người truy cập từ bất cứ đâu đều lưu và xem chung kho ảnh trực tuyến.';
+    } else {
+      banner.className = 'cloud-status-banner offline';
+      text.innerHTML = '<strong>🟡 Chế độ lưu trữ: Cục bộ</strong> — Chưa kết nối Firebase. Nhấp nút cài đặt để kích hoạt kho lưu trữ đám mây dùng chung toàn quốc.';
+    }
+  }
+
+  async function updateCounts() {
+    cachedPosts = await getAllPosts();
+    const pending = cachedPosts.filter(p => p.status === 'pending');
+    const approved = cachedPosts.filter(p => p.status === 'approved');
+    const rejected = cachedPosts.filter(p => p.status === 'rejected');
 
     document.getElementById('count-pending').textContent = pending.length;
     document.getElementById('count-approved').textContent = approved.length;
     document.getElementById('count-rejected').textContent = rejected.length;
-    document.getElementById('count-total').textContent = all.length;
+    document.getElementById('count-total').textContent = cachedPosts.length;
 
     document.getElementById('tab-count-pending').textContent = pending.length;
     document.getElementById('tab-count-approved').textContent = approved.length;
     document.getElementById('tab-count-rejected').textContent = rejected.length;
-    document.getElementById('tab-count-all').textContent = all.length;
+    document.getElementById('tab-count-all').textContent = cachedPosts.length;
   }
 
-  function renderAdmin() {
-    updateCounts();
-    const container = document.getElementById('posts-container');
-    const empty = document.getElementById('admin-empty');
+  async function renderAdmin() {
+    await updateCounts();
+    updateCloudStatus();
 
-    const all = getAllPosts();
-    let filtered = all;
-    if (activeTab === 'pending')  filtered = all.filter(p => p.status === 'pending');
-    if (activeTab === 'approved') filtered = all.filter(p => p.status === 'approved');
-    if (activeTab === 'rejected') filtered = all.filter(p => p.status === 'rejected');
+    const container = document.getElementById('posts-container');
+    const empty     = document.getElementById('admin-empty');
+    const fbPanel   = document.getElementById('firebase-panel');
+
+    if (activeTab === 'firebase') {
+      container.style.display = 'none';
+      empty.style.display = 'none';
+      fbPanel.classList.add('active');
+      loadFirebaseForm();
+      return;
+    }
+
+    fbPanel.classList.remove('active');
+    container.style.display = 'block';
+
+    let filtered = cachedPosts;
+    if (activeTab === 'pending')  filtered = cachedPosts.filter(p => p.status === 'pending');
+    if (activeTab === 'approved') filtered = cachedPosts.filter(p => p.status === 'approved');
+    if (activeTab === 'rejected') filtered = cachedPosts.filter(p => p.status === 'rejected');
 
     if (filtered.length === 0) {
       container.innerHTML = '';
@@ -385,8 +507,9 @@
     container.innerHTML = filtered.map(post => {
       const emotion = EMOTION_MAP[post.emotion] || { label: 'Khác', cls: '' };
 
-      const thumbHTML = post.imgBase64
-        ? `<img src="${post.imgBase64}" alt="Ảnh"/>`
+      const imgSrc = post.imgUrl || post.imgBase64;
+      const thumbHTML = imgSrc
+        ? `<img src="${imgSrc}" alt="Ảnh"/>`
         : `<div style="background:${post.imgColor||'#F5EBD8'};width:100%;height:100%;display:flex;align-items:center;justify-content:center;">${post.imgIcon||'🖼️'}</div>`;
 
       let statusBadge = '';
@@ -414,54 +537,84 @@
             </div>
           </div>
           <div class="admin-post-actions">
-            ${post.status !== 'approved' ? `<button class="btn-action btn-approve" onclick="approvePost(${post.id})">✅ Duyệt bài</button>` : ''}
-            ${post.status !== 'rejected' ? `<button class="btn-action btn-reject" onclick="rejectPost(${post.id})">❌ Từ chối</button>` : ''}
-            <button class="btn-action ${sponsorClass}" onclick="toggleSponsor(${post.id})">${sponsorText}</button>
-            <button class="btn-action btn-delete" onclick="removePost(${post.id})">🗑️ Xóa vĩnh viễn</button>
+            ${post.status !== 'approved' ? `<button class="btn-action btn-approve" onclick="approvePost('${post.id}')">✅ Duyệt bài</button>` : ''}
+            ${post.status !== 'rejected' ? `<button class="btn-action btn-reject" onclick="rejectPost('${post.id}')">❌ Từ chối</button>` : ''}
+            <button class="btn-action ${sponsorClass}" onclick="toggleSponsor('${post.id}')">${sponsorText}</button>
+            <button class="btn-action btn-delete" onclick="removePost('${post.id}')">🗑️ Xóa vĩnh viễn</button>
           </div>
         </div>
       `;
     }).join('');
   }
 
-  function approvePost(id) {
-    updatePostStatus(id, 'approved');
+  async function approvePost(id) {
+    await updatePostStatus(id, 'approved');
     showToast('✅ Đã duyệt lời nhắn lên triển lãm!');
     renderAdmin();
   }
 
-  function rejectPost(id) {
-    updatePostStatus(id, 'rejected');
+  async function rejectPost(id) {
+    await updatePostStatus(id, 'rejected');
     showToast('❌ Đã từ chối hiển thị lời nhắn!');
     renderAdmin();
   }
 
-  function toggleSponsor(id) {
-    const posts = getAllPosts();
-    const post = posts.find(p => p.id === id);
-    if (post) {
-      post.sponsor = !post.sponsor;
-      localStorage.setItem('kncv_posts', JSON.stringify(posts));
-      showToast(post.sponsor ? '★ Đã gắn nhãn đồng hành tài trợ!' : 'Đã bỏ nhãn tài trợ');
-      renderAdmin();
-    }
+  async function toggleSponsor(id) {
+    const isNow = await togglePostSponsor(id);
+    showToast(isNow ? '★ Đã gắn nhãn đồng hành tài trợ!' : 'Đã bỏ nhãn tài trợ');
+    renderAdmin();
   }
 
-  function removePost(id) {
+  async function removePost(id) {
     if (confirm('Bạn có chắc muốn xóa lời nhắn này?')) {
-      deletePost(id);
+      await deletePost(id);
       showToast('🗑️ Đã xóa bài viết.');
       renderAdmin();
     }
   }
 
-  function resetDemoPosts() {
-    if (confirm('Khôi phục lại dữ liệu mẫu gốc? Dữ liệu người dùng gửi gần đây có thể mất.')) {
-      localStorage.removeItem('kncv_posts');
-      localStorage.removeItem('kncv_next_id');
-      seedDemoData();
-      renderAdmin();
-      showToast('🔄 Đã khôi phục dữ liệu mẫu!');
+  function showFirebaseTab() {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.admin-tab[data-tab="firebase"]').classList.add('active');
+    activeTab = 'firebase';
+    renderAdmin();
+  }
+
+  function loadFirebaseForm() {
+    if (!firebaseConfig) return;
+    document.getElementById('fb-apiKey').value        = firebaseConfig.apiKey || '';
+    document.getElementById('fb-projectId').value     = firebaseConfig.projectId || '';
+    document.getElementById('fb-authDomain').value    = firebaseConfig.authDomain || '';
+    document.getElementById('fb-storageBucket').value = firebaseConfig.storageBucket || '';
+    document.getElementById('fb-senderId').value      = firebaseConfig.messagingSenderId || '';
+    document.getElementById('fb-appId').value         = firebaseConfig.appId || '';
+  }
+
+  function saveFirebaseConfig() {
+    const cfg = {
+      apiKey:            document.getElementById('fb-apiKey').value.trim(),
+      projectId:         document.getElementById('fb-projectId').value.trim(),
+      authDomain:        document.getElementById('fb-authDomain').value.trim(),
+      storageBucket:     document.getElementById('fb-storageBucket').value.trim(),
+      messagingSenderId: document.getElementById('fb-senderId').value.trim(),
+      appId:             document.getElementById('fb-appId').value.trim(),
+    };
+
+    if (!cfg.apiKey || !cfg.projectId) {
+      showToast('⚠️ Vui lòng điền tối thiểu API Key và Project ID!');
+      return;
+    }
+
+    localStorage.setItem('kncv_firebase_config', JSON.stringify(cfg));
+    showToast('💾 Đã lưu cấu hình! Đang tải lại...');
+    setTimeout(() => location.reload(), 1200);
+  }
+
+  function clearFirebaseConfig() {
+    if (confirm('Xóa cấu hình Firebase đã lưu trên trình duyệt này?')) {
+      localStorage.removeItem('kncv_firebase_config');
+      showToast('Đã xóa cấu hình Firebase.');
+      setTimeout(() => location.reload(), 1000);
     }
   }
 
@@ -474,6 +627,10 @@
     activeTab = tab.dataset.tab;
     renderAdmin();
   });
+
+  function initAdmin() {
+    renderAdmin();
+  }
 </script>
 </body>
 </html>

@@ -261,39 +261,59 @@
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 <script>
-  seedDemoData();
+  let homePosts = [];
 
-  // Load stats
-  const posts = getApprovedPosts();
-  document.getElementById('stat-posts').textContent = posts.length.toLocaleString();
-  const places = [...new Set(posts.map(p => p.location).filter(Boolean))].length;
-  document.getElementById('stat-places').textContent = places;
+  async function initHome() {
+    homePosts = await getApprovedPosts();
+    document.getElementById('stat-posts').textContent = homePosts.length.toLocaleString();
+    const places = [...new Set(homePosts.map(p => p.location).filter(Boolean))].length;
+    document.getElementById('stat-places').textContent = places;
 
-  // Load preview (latest 8)
-  const grid = document.getElementById('preview-grid');
-  posts.slice(0, 8).forEach(p => {
-    grid.innerHTML += buildCardHTML(p);
-  });
+    const grid = document.getElementById('preview-grid');
+    if (homePosts.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 48px 20px; background: white; border: 2px dashed var(--beige); border-radius: 16px;">
+          <div style="font-size: 2.5rem; margin-bottom: 8px;">🧵</div>
+          <p style="font-family:'Playfair Display',serif; font-size: 1.15rem; color: var(--brown-dark); margin-bottom: 8px;">
+            Chưa có lời nhắn nào được khâu lại.
+          </p>
+          <p style="font-size: .88rem; color: var(--text-light); margin-bottom: 16px;">
+            Hãy là người đầu tiên gửi trao lời yêu thương và kỷ niệm gia đình!
+          </p>
+          <a href="upload.html" class="btn btn-primary btn-sm">📸 Gửi lời nhắn đầu tiên</a>
+        </div>
+      `;
+    } else {
+      grid.innerHTML = '';
+      homePosts.slice(0, 8).forEach(p => {
+        grid.innerHTML += buildCardHTML(p);
+      });
+    }
 
-  // Open modal on card click
-  document.addEventListener('click', e => {
-    const card = e.target.closest('.card[data-id]');
-    if (!card) return;
-    const id   = parseInt(card.dataset.id);
-    const post = getApprovedPosts().find(p => p.id === id);
-    if (post) openModal(post);
-  });
+    // Modal click
+    document.addEventListener('click', e => {
+      const card = e.target.closest('.card[data-id]');
+      if (!card) return;
+      const id = card.dataset.id;
+      const post = homePosts.find(p => String(p.id) === String(id));
+      if (post) openModal(post);
+    });
 
-  // Re-run fade-up for dynamically added cards
-  setTimeout(() => {
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-  }, 100);
+    setTimeout(() => {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+    }, 100);
+  }
+  initHome();
 </script>
 </body>
 </html>
