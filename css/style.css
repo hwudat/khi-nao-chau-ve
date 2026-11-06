@@ -57,14 +57,27 @@ body::before {
   background: rgba(255,248,240,.96);
   backdrop-filter: blur(14px);
   border-bottom: 2px dashed var(--beige);
-  padding: 0 48px;
+  padding: 0 40px;
   display: flex; align-items: center; justify-content: space-between;
-  height: 68px;
+  height: 74px;
   transition: box-shadow var(--transition);
 }
 .navbar.scrolled { box-shadow: 0 4px 24px var(--shadow); }
 
-.nav-logo img { height: 46px; object-fit: contain; }
+.nav-logo {
+  display: flex;
+  align-items: center;
+}
+.nav-logo img {
+  height: 54px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(255,215,0,.35));
+  transition: transform var(--transition);
+}
+.nav-logo:hover img {
+  transform: scale(1.06);
+}
 
 .nav-links { display: flex; gap: 32px; }
 .nav-links a {
