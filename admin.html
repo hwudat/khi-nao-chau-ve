@@ -288,19 +288,15 @@
     <div style="font-size:2.5rem; margin-bottom:8px;">🔐</div>
     <h2>Ban Tổ Chức</h2>
     <p style="font-size:.85rem; color:var(--text-light); margin-bottom:20px;">
-      Vui lòng nhập mã PIN quản trị để duyệt bài triển lãm.<br/>
-      <small style="color:var(--brown)">(Mã mặc định: <strong>1234</strong>)</small>
+      Vui lòng nhập mã PIN quản trị để truy cập trang duyệt bài triển lãm.
     </p>
 
     <div class="form-group">
-      <input class="form-control" type="password" id="admin-pin" placeholder="Nhập mã PIN" maxlength="10" style="text-align:center; font-size:1.2rem; letter-spacing:4px;"/>
+      <input class="form-control" type="password" id="admin-pin" placeholder="Nhập mã PIN quản trị" maxlength="50" style="text-align:center; font-size:1.1rem; letter-spacing:2px;" onkeydown="if(event.key==='Enter')checkPin()"/>
     </div>
 
-    <button class="btn btn-dark" style="width:100%; margin-bottom:10px;" onclick="checkPin()">
+    <button class="btn btn-dark" style="width:100%;" onclick="checkPin()">
       Đăng Nhập
-    </button>
-    <button class="btn btn-outline btn-sm" style="width:100%;" onclick="quickLogin()">
-      Truy cập nhanh (Demo)
     </button>
   </div>
 </div>
@@ -430,18 +426,13 @@
   let cachedPosts = [];
 
   function checkPin() {
-    const pin = document.getElementById('admin-pin').value;
-    if (pin === '1234') {
+    const pin = document.getElementById('admin-pin').value.trim();
+    if (pin === 'davkhinaochauve') {
       document.getElementById('login-overlay').style.display = 'none';
       initAdmin();
     } else {
-      showToast('❌ Sai mã PIN. Thử lại hoặc chọn Truy cập nhanh!');
+      showToast('❌ Sai mã PIN. Vui lòng kiểm tra lại!');
     }
-  }
-
-  function quickLogin() {
-    document.getElementById('login-overlay').style.display = 'none';
-    initAdmin();
   }
 
   function updateCloudStatus() {
